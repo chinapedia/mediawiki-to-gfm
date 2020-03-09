@@ -1,0 +1,155 @@
+{{Sidebar with collapsible lists/temp
+| name           = Style
+| title          = [[Wikipedia:格式手册|格式手冊]]
+| bodyclass      = hlist
+| expanded       = {{{expanded|}}}
+| style          = width: 200px;
+|contentstyle = border-bottom: #aaa 1px solid;
+| image          = <inputbox>
+type=fulltext
+width=12.5
+prefix=Wikipedia:格式手册
+searchbuttonlabel=搜-{zh-hans:索;zh-hant:索;zh-tw:尋;}-格式手-{zh-hant:冊;zh-hans:册;}-
+break=no
+</inputbox><br /><small>'''以下灰字並非正式指引，僅供參考'''</small>
+<!-- 以下註解為英文維基的指引，但中文維基尚未引入 -->
+
+| list1name      = 內容
+| list1title     = 內容
+| list1          = 
+* [[Wikipedia:格式手冊/親和力|{{color]]
+* [[Wikipedia:格式手册/传记|{{color]]
+* [[Wikipedia:格式手冊/消歧義頁|{{color]]
+* [[Wikipedia:格式手册/信息框|{{color]]
+* [[Wikipedia:格式手册/链接|{{color]]
+* [[Wikipedia:格式手冊/避免自我提及|{{color]]
+* [[Wikipedia:格式手冊/避免使用的字詞|{{color]]
+* [[Wikipedia:格式手冊/不要華而不實|不要華而不實]]
+* [[Wikipedia:格式手冊/不要模稜兩可|{{color]]
+
+| list2name      = 格式
+| list2title     = 格式
+| list2          = 
+* [[Wikipedia:格式手册/缩写|縮寫]]
+* [[Wikipedia:格式手册/日期和数字|日期和数字]]
+* [[Wikipedia:格式手册/标点符号|标点符号]]
+* [[Wikipedia:格式手册/音标|{{color]]
+<!-- * [[Wikipedia:格式手冊/專有名詞|{{color]] -->
+<!-- * [[Wikipedia:格式手冊/拼寫|{{color]] -->
+* [[Wikipedia:格式手冊/文字格式|文字格式]]
+* [[Wikipedia:格式手冊/標題|{{color]]
+* [[维基百科:格式手册/标注外文|{{color]]
+
+| list3name      = 圖片
+| list3title     = 圖片
+| list3          = 
+* [[Wikipedia:格式手册/题注|{{color]]
+<!-- * [[Wikipedia:格式手冊/圖片集|{{color]] -->
+* [[Wikipedia:格式手册/旗帜|{{color]]
+<!-- * [[Wikipedia:格式手冊/圖片|{{color]] -->
+
+| list4name      = 排版
+| list4title     = 排版
+| list4          = 
+* [[Wikipedia:格式手冊/版面佈局|佈局]]
+* [[Wikipedia:格式手冊/序言章節|{{color]]
+* [[Wikipedia:格式手冊/章節標題|{{color]]
+* [[Wikipedia:格式手冊/表格|{{color]]
+* [[Wikipedia:格式手冊/瑣碎章節|{{color]]
+
+| list5name      = 列表
+| list5title     = 列表
+| list5          = 
+* [[Wikipedia:格式手冊/列表|{{color]]
+* [[Wikipedia:格式手冊/嵌入列表|{{color]]
+* [[Wikipedia:格式手冊/作品列表|作品列表]]
+<!-- * [[Wikipedia:格式手冊/道路設施列表|{{color]] -->
+* [[Wikipedia:格式手册/独立列表|{{color]]
+
+| list6name     = 法律
+| list6title    = 法律
+| list6         = 
+<!-- * [[Wikipedia:格式手冊/法律|{{color]] -->
+* [[Wikipedia:格式手册/商标|{{color]]
+
+| list7name     = 創作
+| list7title    = 創作
+| list7         = 
+* [[Wikipedia:格式手册/虚构事物|{{color]]
+* [[Wikipedia:日本動漫遊戲條目指導|{{color]]
+* [[Wikipedia:电子游戏专题/条目指引|电子游戏]]
+* [[Wikipedia:格式手冊/漫畫|{{color]]
+* [[Wikipedia:电影专题/指南|{{color]]
+<!-- * [[Wikipedia:格式手冊/詩詞|{{color]] -->
+<!-- * [[Wikipedia:格式手冊/小說|{{color]] -->
+* [[Wikipedia:格式手冊/電視|{{color]]
+<!-- * [[Wikipedia:格式手冊/視覺藝術|{{color]] -->
+
+| list8name     = 音樂
+| list8title    = 音樂
+| list8         = 
+<!-- * [[Wikipedia:格式手冊/音樂|{{color]] -->
+<!-- * [[Wikipedia:格式手冊/音訊範例|{{color]] -->
+<!-- * [[Wikipedia:格式手冊/音樂榜單|{{color]] -->
+* [[Wikipedia:音樂專題/專輯條目格式指導|{{color]]
+
+| list9name     = 地區
+| list9title    = 地區
+| list9         = 
+
+* [[Wikipedia:格式手册/日本相关条目|{{color]]
+* [[Wikipedia:格式手冊/朝鮮相關條目|{{color]]
+<!-- * [[Wikipedia:格式手冊/加拿大相關條目|{{color]] -->
+* [[Wikipedia:格式手冊/中國相關條目|{{color]]
+<!-- * [[Wikipedia:格式手冊/法國相關條目|{{color]] -->
+<!-- * [[Wikipedia:格式手冊/夏威夷相關條目|{{color]] -->
+<!-- * [[Wikipedia:格式手冊/印度相關條目|{{color]] -->
+<!-- * [[Wikipedia:格式手冊/愛爾蘭相關條目|{{color]] -->
+* [[维基百科:格式手册/马来西亚相关条目|{{color]] 
+<!-- * [[Wikipedia:格式手冊/菲律賓相關條目|{{color]] -->
+<!-- * [[Wikipedia:格式手冊/波蘭相關條目|{{color]] -->
+<!-- * [[Wikipedia:格式手冊/新加坡相關條目|{{color]] -->
+<!-- * [[Wikipedia:格式手冊/千里達及托巴哥相關條目|{{color]] -->
+<!--
+| list10name     = 宗教
+| list10title    = 宗教
+| list10         = 
+* [[Wikipedia:格式手冊/伊斯蘭教相關條目|{{color]]
+* [[Wikipedia:格式手冊/後期聖徒相關條目|{{color]]
+-->
+| list11name     = 科學
+| list11title    = 科學
+| list11         = 
+* [[Wikipedia:格式手册/化学|{{color]]
+* [[Wikipedia:格式手册/计算机|{{color]]
+* [[Wikipedia:格式手册/数学|{{color]]
+* [[Wikipedia:格式手册/哲学|{{color]]
+<!-- * [[Wikipedia:格式手冊/醫學|{{color]] -->
+* [[:Template:Taxobox/doc|{{color]]
+<!-- 
+| list12name     = 體育
+| list12title    = 體育
+| list12         = 
+
+* [[Wikipedia:格式手冊/撞球|{{color]]
+* [[Wikipedia:格式手冊/司諾克|{{color]]
+-->
+| list13name     = 相關方針指引
+| list13title    = 相關方針指引
+| list13         = 
+* [[Wikipedia:条目长度|{{color]]
+* [[Wikipedia:命名常规|命名常规]]
+* [[Wikipedia:分類、列表與導航模板|{{color]]
+* [[Wikipedia:頁面分類|頁面分類]]
+* [[Wikipedia:列明来源|列明来源]]
+* [[Wikipedia:頂註|{{color]]
+* [[Wikipedia:签名|签名]]
+* [[Wikipedia:子頁面|{{color]]
+* [[Wikipedia:討論頁指導|討論頁指導]]
+* [[Wikipedia:模板名字空间|{{color]]
+* [[Wikipedia:行话解释|{{color]]
+* [[Wikipedia:使用者頁面|使用者頁面]]
+* [[Wikipedia:姊妹计划|{{color]]
+* [[Wikipedia:专题委员会/专题指引|{{color]]
+
+}}<noinclude>{{documentation}}</noinclude>

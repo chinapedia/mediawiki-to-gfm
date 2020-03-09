@@ -1,0 +1,54 @@
+{{multiple|
+{{third-party|date=March 2019}}
+{{More citations needed|date=September 2014}}
+}}
+{{Program execution}}
+The '''Common Language Runtime''' ('''CLR'''), the [[virtual machine]] component of [[Microsoft|Microsoft's]] [[.NET framework]], manages the execution of .NET programs. [[Just-in-time compilation]] converts the [[managed code]] (compiled [[intermediate language]] code), into [[machine instructions]] which are then executed on the [[CPU]] of the computer.<ref name="msdn-clr">{{cite web| title = Common Language Runtime (CLR) | url = http://msdn.microsoft.com/en-us/library/8bs2ecf4 | accessdate = 14 November 2013 | work = [[MSDN Library]]}}</ref> The CLR provides additional services including [[memory management]], [[type safety]], [[exception handling]], [[garbage collection (computer science)|garbage collection]], security and [[thread management]]. All programs written for the .NET framework, regardless of [[programming language]], are executed by the CLR. All versions of the .NET framework include CLR. The CLR team was started June 13, 1998.
+
+CLR implements the [[Virtual Execution System]] (VES) as defined in the [[Common Language Infrastructure]] (CLI) standard, initially developed by Microsoft itself. A public standard defines the Common Language Infrastructure specification.<ref>{{cite web | title = ECMA C# and Common Language Infrastructure Standards 
+| url = http://msdn.microsoft.com/en-us/vstudio/Aa569283.aspx | accessdate = 14 November 2013 
+| work = Visual Studio Developer Center}}</ref>
+
+[[Image:CLR diag.svg|thumb|400px|right|The CLR converts CIL ([[Common Intermediate Language]]) to native code.]]
+
+{|class="wikitable"
+|+Overview of the Common Language Runtime release history<ref name="msdn-clr" />
+!CLR version
+!.NET version
+|-
+|1.0
+|[[.NET Framework version history#.NET Framework 1.0|1.0]]
+|-
+|1.1
+|[[.NET Framework version history#.NET Framework 1.1|1.1]]
+|-
+|2.0
+|[[.NET Framework version history#.NET Framework 2.0|2.0]], [[.NET Framework version history#.NET Framework 3.0|3.0]], [[.NET Framework version history#.NET Framework 3.5|3.5]]
+|-
+|4
+|[[.NET Framework version history#.NET Framework 4|4]], [[.NET Framework version history#.NET Framework 4.5|4.5]], [[.NET Framework version history#.NET Framework 4.6|4.6]], [[.NET Framework version history#.NET Framework 4.7|4.7]], [[.NET Framework version history#.NET Framework 4.8|4.8]]
+|}
+
+==See also==
+*[[Common Intermediate Language]]
+*[[List of CLI languages]]
+*[[Java virtual machine]]
+
+==References==
+{{Reflist}}
+
+==External links==
+*[http://www.informit.com/articles/article.aspx?p=30601 Components of Common Language Runtime]
+*[https://web.archive.org/web/20110425220519/http://www.visualbuilder.com/dotnet/tutorial/clr-%28common-language-runtime%29/ Components of CLR]
+*[http://msdn.microsoft.com/en-us/library/a4t23ktk.aspx Overview of the .NET Framework 4.0]
+*[http://msdn.microsoft.com/en-us/library/zw4w595w.aspx .NET Framework Conceptual Overview]
+
+{{Common Language Infrastructure}}
+
+{{Authority control}}
+
+[[Category:.NET Framework terminology]]
+[[Category:Stack-based virtual machines]]
+
+{{Portal bar|.NET Framework}}
+
