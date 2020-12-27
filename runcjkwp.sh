@@ -1,36 +1,51 @@
-LANG=$1
-VERSION=`cat VERSION | head -n1`
-DATADIR=$LANG"wiki"
-FILTER="filters/gfm-"$LANG".lua"
+WIKILANG=$1
+if [ $1 = "-c" ]; then
+    WIKILANG=$2
+fi
+
+if [ $1 = "-r" ]; then
+    WIKILANG=$2
+fi
+
+VERSION=`date '+%Y%m01'`
+if [ $1 = "-f" ]; then
+    VERSION=`cat VERSION | head -n1`
+    WIKILANG=$2
+else
+    date '+%Y%m01' > VERSION
+fi
+
+DATADIR=$WIKILANG"wiki"
+FILTER="filters/gfm-"$WIKILANG".lua"
 if [ -f $FILTER ]; then 
-    echo "Filter "$FILTER" exists..."
+    echo "Filter "$FILTER" exists... Version: $VERSION"
 else
     echo "Filter "$FILTER" does not exist, exit..."
     exit 1
 fi
 
 command -v jq >/dev/null 2>&1 || { apt install jq; }
-wget https://dumps.wikimedia.org/$DATADIR/$VERSION/dumpstatus.json -O $LANG.dumpstatus.json
+wget https://dumps.wikimedia.org/$DATADIR/$VERSION/dumpstatus.json -O $DATADIR.dumpstatus.json
 if [ $1 = "-c" ]; then
-    echo "Continue $LANG..."
+    echo "Continue $WIKILANG..."
 else
     if [ $1 = "-r" ]; then
         echo "Start over and reusing data..."
     else
-        echo "Start over $LANG..."
+        echo "Start over $WIKILANG..."
         rm -rv $DATADIR
     fi
 fi
 mkdir $DATADIR
-cat $LANG.dumpstatus.json | jq ".jobs.articlesdump.files[].url" | awk -F '"' '{print "https://dumps.wikimedia.org" $2 }' > $DATADIR/$VERSION.sh
+cat $DATADIR.dumpstatus.json | jq ".jobs.articlesdump.files[].url" | sort | awk -F '"' '{print "https://dumps.wikimedia.org" $2 }' > $DATADIR/$VERSION.sh
 
 LOG=$DATADIR.convert.log
-REPO="../wikipedia."$LANG
+REPO="../wikipedia."$WIKILANG
 if [ -d $REPO ]; then
     echo "$REPO exists"
 else
     cd ..
-    git clone git@github.com:chinapedia/wikipedia.$LANG.git --depth=3
+    git clone git@github.com:chinapedia/wikipedia.$WIKILANG.git --depth=3
     cd -
 fi
  
@@ -54,7 +69,7 @@ for url in $(cat $DATADIR/$VERSION.sh); do
     fi
     cd ..
 
-        php convert.php --filename="$DATADIR"/"$counter" --output="$REPO" --luafilter="$FILTER" --template=cfm-"$LANG"
+        php convert.php --filename="$DATADIR"/"$counter" --output="$REPO" --luafilter="$FILTER" --template=cfm-"$WIKILANG"
         cd $REPO
         git add .
         git commit -m "Convert from $VERSION stream$counter"

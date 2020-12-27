@@ -18,7 +18,8 @@ if (is_file(__DIR__.'/vendor/autoload.php') === true) {
 } else {
     exit("Please run 'composer update --no-dev' first." . PHP_EOL);
 }
-//require_once 'vendor/chinapedia/pandoc-php/src/Pandoc/Pandoc.php';
+require_once 'vendor/chinapedia/pandoc-php/src/Pandoc/Pandoc.php';
+require_once 'vendor/chinapedia/pandoc-php/src/Pandoc/PandocException.php';
 $args = getopt(
     '',
     [

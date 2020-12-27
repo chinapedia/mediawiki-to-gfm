@@ -3,7 +3,7 @@ SCRIPTPATH=`dirname $SCRIPT`
 VERSIONPATH="$SCRIPTPATH/VERSION"
 VERSION=`cat $VERSIONPATH | head -n1`
 
-filename=`ps aux|grep "convert\.php --"|awk '{print $13}'|awk -F'/' '{print $2}'`
+filename=`ps aux|grep "convert\.php --filename=$1wiki"|awk '{print $13}'|awk -F'/' '{print $2}'`
 [[ -z "$filename" ]] && {
     echo "Process not found"
     exit 1

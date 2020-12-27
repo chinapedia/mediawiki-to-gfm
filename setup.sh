@@ -8,5 +8,4 @@ apt install php7.2-cli php7.2-xml php7.2-mbstring composer zip
 composer update --no-dev
 
 git clone https://github.com/chinapedia/pandoc-php
-
 cp pandoc-php/src/Pandoc/* vendor/ryakad/pandoc-php/src/Pandoc/ -v
