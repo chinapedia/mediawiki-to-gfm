@@ -3,7 +3,13 @@ command -v jq >/dev/null 2>&1 || {
     apt install ./pandoc-2.9.1-1-amd64.deb;
 }
 
-apt install php7.2-cli php7.2-xml php7.2-mbstring composer zip
+apt install php7.2-cli php7.2-xml php7.2-mbstring composer zip timelimit 
+
+curl -sSL https://get.haskellstack.org/ | sh
+git clone --depth=3 https://github.com/jgm/pandoc.git
+cd pandoc
+/usr/local/bin/stack setup
+/usr/local/bin/stack install
 
 composer update --no-dev
 
