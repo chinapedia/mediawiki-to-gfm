@@ -7,6 +7,10 @@ if [ $1 = "-r" ]; then
     WIKILANG=$2
 fi
 
+if [ -z $WIKILANG ]; then
+    WIKILANG=zh
+fi
+
 VERSION=`date '+%Y%m01'`
 if [ $1 = "-f" ]; then
     VERSION=`cat VERSION | head -n1`
