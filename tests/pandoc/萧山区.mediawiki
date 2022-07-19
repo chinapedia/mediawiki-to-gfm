@@ -1,0 +1,201 @@
+下辖15个街道、12个镇，60个社区、31个居民区、739个行政村。<ref>{{Cite web|url=http://www.xiaoshan.gov.cn/bmfw_681/cxzx/syxxcx/201412/t20141225_187090.shtml|title=杭州市萧山区区划地名图--萧山区政府门户网站|accessdate=2016-10-17|date=2014-12-25|format=shtml|publisher=萧山政府网|pages=1|language=zh-Hans|archiveurl=https://web.archive.org/web/20170305050823/http://www.xiaoshan.gov.cn/bmfw_681/cxzx/syxxcx/201412/t20141225_187090.shtml|archivedate=2017-03-05|quote=|dead-url=no}}</ref>
+
+{| class="wikitable" style="text-align:center; width: 700px"
+! colspan="6" |萧山区行政区划图
+|-
+| colspan="6" |{{center|
+{{Image label begin|image=Administrative Division Xiaoshan Hangzhou.svg|width=600|link=}}
+{{Image label|x=450|y=410|text=<span style="line-height: 15px; font-weight: bold">① [[城厢街道_(杭州市)|{{color]]<br /><br />② 属[[瓜沥镇|{{color]]<br /><br />{{color|grey|③ 顺坝垦区}}</span>}}
+{{Image label|x=90.0|y=345.0|text='''[[义桥镇_(杭州市)|{{color]]'''}}
+{{Image label|x=152.0|y=365.0|text='''[[临浦镇|{{color]]'''}}
+{{Image label|x=78.0|y=415.0|text='''[[戴村镇|{{color]]'''}}
+{{Image label|x=85.0|y=470.0|text='''[[河上镇_(杭州市)|{{color]]'''}}
+{{Image label|x=30.0|y=530.0|text='''[[楼塔镇|{{color]]'''}}
+{{Image label|x=155.0|y=450.0|text='''[[浦阳镇|{{color]]'''}}
+{{Image label|x=210.0|y=420.0|text='''[[进化镇_(杭州市)|{{color]]'''}}
+{{Image label|x=210.0|y=255.0|text='''[[新塘街道_(杭州市)|{{color]]'''}}
+{{Image label|x=275.0|y=250.0|text='''[[衙前镇_(杭州市)|{{color]]'''}}
+{{Image label|x=200.0|y=330.0|text='''[[所前镇|{{color]]'''}}
+{{Image label|x=157.0|y=242.0|text='''[[城厢街道_(杭州市)|{{color]]'''}}
+{{Image label|x=167.0|y=222.0|text='''[[北干街道|{{color]]'''}}
+{{Image label|x=150.0|y=292.0|text='''[[蜀山街道|{{color]]'''}}
+{{Image label|x=97.0|y=285.0|text='''[[闻堰街道|{{color]]'''}}
+{{Image label|x=175.0|y=180.0|text='''[[宁围街道|{{color]]'''}}
+{{Image label|x=220.0|y=142.0|text='''{{color|grey|③}}'''}}
+{{Image label|x=235.0|y=205.0|text='''[[新街街道_(杭州市)|{{color]]'''}}
+{{Image label|x=345.0|y=215.0|text='''[[瓜沥镇|{{color]]'''}}
+{{Image label|x=315.0|y=142.0|text='''[[南阳街道_(杭州市)|{{color]]'''}}
+{{Image label|x=360.0|y=172.0|text='''[[靖江街道|{{color]]'''}}
+{{Image label|x=420.0|y=172.0|text='''[[党湾镇|{{color]]'''}}
+{{Image label|x=460.0|y=223.0|text='''[[益农镇|{{color]]'''}}
+{{Image label|x=505.0|y=195.0|text='''[[瓜沥镇|{{color]]'''}}
+{{Image label end}}
+}}
+|-
+!区划代码
+!区划名称
+!陆域面积<ref>{{cite book |last= |first= |date= |title=杭州市地名志 上 卷二 萧山区 |url=http://hzszfzg.wanfangdata.com.cn/local/itemInfo.html?id=20002454&&bookId=20002444&&parentID=FZ201746787 |publisher=杭州出版社 |author=杭州市地名委员会 |isbn=978-7-80758-721-7 |access-date=2020-01-18 |archive-date=2020-02-19 |archive-url=https://web.archive.org/web/20200219061421/http://hzszfzg.wanfangdata.com.cn/local/itemInfo.html?id=20002454&&bookId=20002444&&parentID=FZ201746787 |dead-url=no }}</ref>
+（平方千米）
+!邮政编码
+!社区数
+!行政村数
+|-
+!330109001
+![[城厢街道_(杭州市)|城厢街道]]
+|25.63
+|311201<br>311203
+|33
+|0
+|-
+!330109002
+![[北干街道|北干街道]]
+|17.51
+|311202
+|21
+|6
+|-
+!330109003
+![[蜀山街道|蜀山街道]]
+|34.75
+|311203
+|18
+|8
+|-
+!330109004
+![[新塘街道_(杭州市)|新塘街道]]
+|35.65
+|311201
+|23
+|17
+|-
+!330109005
+![[靖江街道|靖江街道]]
+|23.06
+|311223
+|5
+|10
+|-
+!330109006
+![[南阳街道_(杭州市)|南阳街道]]
+|31.03
+|311227
+|2
+|13
+|-
+!330109012
+![[闻堰街道|闻堰街道]]
+|26.75
+|311258
+|4
+|6
+|-
+!330109013
+![[宁围街道|宁围街道]]
+|62.58<ref name="b">{{Cite web|url=http://www.hangzhou.gov.cn/art/2020/6/22/art_1229063387_651442.html|title=杭州市人民政府关于萧山区部分行政区划调整的批复|date=2020-06-19|publisher=杭州市人民政府}}</ref>
+|311215
+|7
+|6
+|-
+!330109014
+![[新街街道_(杭州市)|新街街道]]
+|40.68
+|311217
+|4
+|15
+|-
+!
+![[盈丰街道|盈丰街道]]
+|23.10<ref name="b"/>
+|311215
+|9
+|4
+|-
+!330109100
+![[楼塔镇|楼塔镇]]
+|47.93
+|311266
+|1
+|12
+|-
+!330109101
+![[河上镇_(杭州市)|河上镇]]
+|63.69
+|311265
+|1
+|15
+|-
+!330109102
+![[戴村镇|戴村镇]]
+|62.82
+|311261
+|1
+|22
+|-
+!330109103
+![[浦阳镇|浦阳镇]]
+|44.49
+|311255
+|0
+|18
+|-
+!330109104
+![[进化镇_(杭州市)|进化镇]]
+|87.10
+|311253
+|0
+|25
+|-
+!330109105
+![[临浦镇|临浦镇]]
+|42.48
+|311251
+|14
+|20
+|-
+!330109106
+![[义桥镇_(杭州市)|义桥镇]]
+|57.99
+|311256
+|1
+|21
+|-
+!330109107
+![[所前镇|所前镇]]
+|44.13
+|311254<br>311201
+|1
+|19
+|-
+!330109108
+![[衙前镇_(杭州市)|衙前镇]]
+|17.92
+|311209
+|2
+|11
+|-
+!330109113
+![[瓜沥镇|瓜沥镇]]
+|127.15
+|311241<br>311243<br>311245
+|11
+|63
+|-
+!330109115
+![[益农镇|益农镇]]
+|46.51
+|311247
+|1
+|19
+|-
+!330109120
+![[党湾镇|党湾镇]]
+|32.73
+|311215
+|1
+|17
+|-
+|colspan=6 align=left| 
+*宁围街道顺坝垦区中约2100余亩属[[上城区|上城区]]。<ref>{{Cite web|url=http://zzhz.zjol.com.cn/xww/lskb/hz13179/201808/t20180801_7916773.shtml|title=羊棚变身优质良田 江干“飞地”迎大变样|date=2018-08-01|publisher=浙江在线|language=zh-Hans|archiveurl=https://web.archive.org/web/20201212105120/http://zzhz.zjol.com.cn/xww/lskb/hz13179/201808/t20180801_7916773.shtml|archivedate=2020-12-12|quote=|access-date=2020-01-18|dead-url=no}}</ref>
+|}
+
+
