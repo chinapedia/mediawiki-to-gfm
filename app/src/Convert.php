@@ -232,10 +232,14 @@ class Convert
         $this->createDirectory($fileMeta['directory']);
 
         $file = fopen($fileMeta['directory'] . $fileMeta['filename'] . '.md', 'w');
-        fwrite($file, $text);
-        fclose($file);
+        if ($file) {
+            fwrite($file, $text);
+            fclose($file);
 
-        $this->message("Converted: " . $fileMeta['directory'] . $fileMeta['filename']);
+            $this->message("Converted: " . $fileMeta['directory'] . $fileMeta['filename']);
+        } else {
+            $this->message("Failed to write file: " . $fileMeta['directory'] . $fileMeta['filename']);
+        }
     }
 
     /**
