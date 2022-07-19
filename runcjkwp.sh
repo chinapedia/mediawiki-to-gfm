@@ -73,7 +73,7 @@ for url in $(cat $DATADIR/$VERSION.sh); do
     fi
     cd ..
 
-        php convert.php --filename="$DATADIR"/"$counter" --output="$REPO" --luafilter="$FILTER" --template=cfm-"$WIKILANG"
+        php -d memory_limit=4096M convert.php --filename="$DATADIR"/"$counter" --output="$REPO" --luafilter="$FILTER" --template=cfm-"$WIKILANG"
         cd $REPO
         git add .
         git commit -m "Convert from $VERSION stream$counter"
