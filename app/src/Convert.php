@@ -142,7 +142,7 @@ class Convert
             $title = $node->xpath('title');
             $fileMeta = $this->retrieveFileInfo($title);
             if (empty($fileMeta) || 201 == ($fileMeta['type']) || ($fileMeta['type']) <= 0) {
-                $this->message("ignore slash: " . $fileMeta['filename']);
+                $this->message("ignore slash: " . $title . " " . json_encode($fileMeta));
                 continue;
             }
             
