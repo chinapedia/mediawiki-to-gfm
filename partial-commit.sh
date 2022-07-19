@@ -13,8 +13,9 @@ if [ "$1" == "en" ]; then
     for x in {A..Z}; do mv Page/$x*md Page."$x"; done 
 fi
 
+git add Page
 git commit -am "Partially convert from $VERSION stream$filename"
-git pull
-git rebase
+#git pull
+#git rebase
 git push
 
