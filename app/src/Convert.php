@@ -153,11 +153,20 @@ class Convert
 
             if ($fileMeta['type'] == 3) {
                 $this->message("Template: " . json_encode($fileMeta) . " -> " . $text);
-                $this->saveFile($fileMeta, $text);
+                $this->saveFile($fileMeta, $text, ".wikitext");
+                continue;
+            }
+            
+            $text = $this->cleanText($text, $fileMeta);
+            if (empty($text)) {
+                $this->message("cleanText empty: " . $node->xpath('revision/text')[0]);
                 continue;
             }
 
-            $text = $this->cleanText($text, $fileMeta);
+            if ($this->format === "mediawiki") {
+                $this->saveFile($fileMeta, $text, ".wikitext");
+                continue;
+            }
 
             try {
                 $this->message("pandoc: {$fileMeta['filename']}: ");
@@ -198,7 +207,7 @@ class Convert
             return null;
         }
         
-        if ($fileMeta['type'] > 6 && mb_strlen($text) < 1024) {
+        if ($fileMeta['type'] == 3 && mb_strlen($text) < 1024) {
             $this->message("Ignroe short: " . $text);
             return null;
         }
@@ -234,14 +243,14 @@ class Convert
      * @param  string $fileMeta Name of file to save
      * @param  strong $text     Body of file to save
      */
-    public function saveFile($fileMeta, $text)
+    public function saveFile($fileMeta, $text, $ext=".md")
     {
         $this->createDirectory($fileMeta['directory']);
         if(getenv("WIKILANG")!='en' && mb_detect_encoding($text,"UTF-8, ISO-8859-1, GBK")!="UTF-8") {
             $text = iconv("gbk","utf-8",$text);
             $this->message("Text encoding: " . $text);
         }
-        $file = fopen($fileMeta['directory'] . $fileMeta['filename'] . '.md', 'w');
+        $file = fopen($fileMeta['directory'] . $fileMeta['filename'] . $ext, 'w');
         if ($file) {
             fwrite($file, $text);
             fclose($file);
