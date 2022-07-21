@@ -146,11 +146,18 @@ class Convert
                 continue;
             }
             
-            $text = $node->xpath('revision/text');
-            $text = $this->cleanText($text[0], $fileMeta);
+            $text = $node->xpath('revision/text')[0];
             if (empty($text)) {
                 continue;
             }
+
+            if ($fileMeta['type'] == 3) {
+                $this->message("Template: " . json_encode($fileMeta) . " -> " . $text);
+                $this->saveFile($fileMeta, $text);
+                continue;
+            }
+
+            $text = $this->cleanText($text, $fileMeta);
 
             try {
                 $this->message("pandoc: {$fileMeta['filename']}: ");
@@ -191,7 +198,7 @@ class Convert
             return null;
         }
         
-        if (mb_strlen($text) < 1024) {
+        if ($fileMeta['type'] > 6 && mb_strlen($text) < 1024) {
             $this->message("Ignroe short: " . $text);
             return null;
         }
@@ -230,7 +237,10 @@ class Convert
     public function saveFile($fileMeta, $text)
     {
         $this->createDirectory($fileMeta['directory']);
-
+        if(getenv("WIKILANG")!='en' && mb_detect_encoding($text,"UTF-8, ISO-8859-1, GBK")!="UTF-8") {
+            $text = iconv("gbk","utf-8",$text);
+            $this->message("Text encoding: " . $text);
+        }
         $file = fopen($fileMeta['directory'] . $fileMeta['filename'] . '.md', 'w');
         if ($file) {
             fwrite($file, $text);
@@ -264,7 +274,7 @@ class Convert
                 $directory = $sp . "/";
                 $filename = mb_substr($title, strlen($sp) + 1);
                 $filename = str_replace('/', '_', $filename);
-                if ($sp === "Template" || $sp === "File") {
+                if ($sp === "File") {
                     return null;
                 }
                 break;
