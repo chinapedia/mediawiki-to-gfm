@@ -203,7 +203,35 @@ class Convert
         $text = html_entity_decode($text);
 
         if (mb_strpos($text, "#") === 0) {
+            $target="";
+            if (mb_strpos($text, "#REDIRECT") === 0) {
+                $target = mb_substr($text, mb_strlen("#REDIRECT"));
+            } else if (mb_strpos($text, "#重定向") === 0) {
+                $target = mb_substr($text, mb_strlen("#重定向"));
+            }
+            if (mb_strlen($target) > 4) {
+                $matches = [];
+                preg_match('/\[\[(.*)\]\]/', $target, $matches, PREG_OFFSET_CAPTURE);
+                if (count($matches)>1) {
+                    $dir="Page/";
+                    $ext=".md";
+                    $mobj=$matches[1];
+                    if ($this->format === "mediawiki") {
+                        $dir = mb_substr($mobj[0],0,1)+"/";
+                        $ext = ".wikitext";
+                    }
+                    $targetFile = $dir . $mobj[0] . $ext;
+                    if (file_exists($this->output . $targetFile)) {
+                        $this->message("Redirect: " . $fileMeta['filename'] . " -> " . $targetFile);
+                        symlink("../" . $targetFile, $this->output . "Redirect/" . $fileMeta['filename'] . $ext);
+                        return null;
+                    } else {
+                        $this->message("Redirect target not exists: " . $text . $targetFile);
+                    }
+                }
+            }
             $this->message("Ignroe redirect: " . $text);
+            
             return null;
         }
         
