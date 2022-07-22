@@ -179,7 +179,10 @@ class Convert
                     continue;
                 }
             } catch (\Throwable $e) {
-                $this->message("Caught exception {$fileMeta['filename']}: ",  $e->getMessage());
+                $errmsg=$e->getMessage();
+                $this->message("Caught exception {$fileMeta['filename']}: ", $errmsg);
+                $fileMeta['directory'] = $this->output . "Errors/";
+                $this->saveFile($fileMeta, json_encode($fileMeta) . " -> ". $errmsg, ".log");
                 continue;
             }
             $text .= $this->getMetaData($fileMeta);
