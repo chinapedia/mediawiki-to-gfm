@@ -73,7 +73,7 @@ function Link(el)
     return el
   elseif not page_exists(el.target) then
     ctxt = el.content[1].text
-    if starts_with(ctxt, el.target) then
+    if ctxt and starts_with(ctxt, el.target) then
       if ctxt ~= el.target then
         suffix = ctxt:sub(1 + #el.target)
         el.content[1].text = el.target
@@ -85,7 +85,7 @@ function Link(el)
     return el
   else 
     ctxt = el.content[1].text
-    if starts_with(ctxt, el.target) then
+    if ctxt and starts_with(ctxt, el.target) then
       if ctxt ~= el.target then
         suffix = ctxt:sub(1 + #el.target)
         el.content[1].text = el.target
