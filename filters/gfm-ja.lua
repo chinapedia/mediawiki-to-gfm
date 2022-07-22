@@ -103,3 +103,31 @@ end
 function Image(el)
   return pandoc.Link(el.caption, "https://ja.wikipedia.org/wiki/File:" .. el.src, el.title)
 end
+
+function RawBlock(el)
+  if starts_with(el.text, '{{') then
+    tpl=el.text:sub(3, #el.text - 2)
+    local t={}
+    tplName=""
+    for str in string.gmatch(tpl, "([^|]+)") do
+      found=0
+      kvs=string.gmatch(str, "([-%w]+)=(.+)")
+      for k,v in kvs do
+        t[k]=v
+        found=1 
+      end
+      if found == 0 then
+        tplName=str
+      end
+    end
+    if istarts_with(tplName, "cite ") then
+      if t['archive-url'] then
+        if !t['url'] then
+          t['url'] = t['archive-url']
+        end
+      end
+      return pandoc.Link(t['title'], t['url'])
+    end
+  end
+  return nil
+end
