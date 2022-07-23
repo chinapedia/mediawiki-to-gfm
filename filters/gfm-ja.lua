@@ -131,3 +131,13 @@ function RawBlock(el)
   end
   return nil
 end
+
+function Blocks(el)
+  if #el > 0 then
+    btext=el[1].text
+    if btext and istarts_with(btext, "{{cite book") then
+      return pandoc.Str''
+    end
+  end
+  return nil
+end
