@@ -86,6 +86,31 @@ function Link(el)
       end
     end
     el.target = "../Page/" .. el.target
+  elseif special_page_exists("Redirect", el.target) then
+    ctxt = el.content[1].text
+    -- realpath = fs.readlink(wiki_path .. "/Redirect/" .. el.target .. ".md")
+    realpath=io.popen('readlink "' .. wiki_path .. "/Redirect/" .. el.target .. ".md" ..'"'):read()
+    realpathcomp = {}
+    realname=""
+    for str in string.gmatch(realpath, "([^/]+)") do
+      table.insert(realpathcomp, str)
+      realname=str
+    end
+    if #realpathcomp < 2 or #realname==0 then
+      el.target = "../Redirect/" .. el.target .. ".md"
+      if #el.content == 1 then
+        el.content[1].text = el.content[1].text .. "Ⓡ"
+      end
+      return el
+    elseif ctxt and starts_with(ctxt, el.target) and ctxt ~= el.target then
+      suffix = ctxt:sub(1 + #el.target)
+      el.content[1].text = el.target
+      el.target = "../Page/" .. realname
+      return {el, pandoc.Str(suffix)}
+    else
+      el.target = "../Page/" .. realname
+      return el
+    end
   else
     ctxt = el.content[1].text
     if ctxt and starts_with(ctxt, el.target) then
