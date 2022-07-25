@@ -75,20 +75,7 @@ function Link(el)
   elseif istarts_with(el.target, "Help:") then
     el.target = wiki_prefix .. el.target
     return el
-  elseif not page_exists(el.target) then
-    ctxt = el.content[1].text
-    if ctxt and starts_with(ctxt, el.target) then
-      if ctxt ~= el.target then
-        suffix = ctxt:sub(1 + #el.target)
-        el.content[1].text = el.target .. "ⓦ"
-        el.target = wiki_prefix .. el.target 
-        return {el, pandoc.Str(suffix)} 
-      end
-    end
-    el.content[1].text = ctxt .. "ⓦ"
-    el.target = wiki_prefix .. el.target
-    return el
-  else 
+  elseif page_exists(el.target) then
     ctxt = el.content[1].text
     if ctxt and starts_with(ctxt, el.target) then
       if ctxt ~= el.target then
@@ -99,9 +86,25 @@ function Link(el)
       end
     end
     el.target = "../Page/" .. el.target
+  else
+    ctxt = el.content[1].text
+    if ctxt and starts_with(ctxt, el.target) then
+      if ctxt ~= el.target then
+        suffix = ctxt:sub(1 + #el.target)
+        if #el.content == 1 then
+          el.content[1].text = el.target .. "ⓦ"
+        end
+        el.target = wiki_prefix .. el.target 
+        return {el, pandoc.Str(suffix)} 
+      end
+    end
+    if #el.content == 1 then
+      el.content[1].text = ctxt .. "ⓦ"
+    end
+    el.target = wiki_prefix .. el.target
+    return el
   end
   el.target = el.target .. ".md"
-  
   return el
 end
 
