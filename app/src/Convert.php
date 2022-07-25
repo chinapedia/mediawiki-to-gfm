@@ -182,7 +182,12 @@ class Convert
                 $errmsg=$e->getMessage();
                 $this->message("Caught exception {$fileMeta['filename']}: ", $errmsg);
                 $fileMeta['directory'] = $this->output . "Errors/";
-                $this->saveFile($fileMeta, json_encode($fileMeta) . " -> ". $errmsg, ".log");
+                if (stripos($errmsg, "Error") >= 0) {
+                    $this->saveFile($fileMeta, json_encode($fileMeta) . " -> ". $errmsg, ".log");
+                } else {
+                    $lagacyFile = $fileMeta['directory']  . $fileMeta['filename'] . ".log";
+                    unlink($lagacyFile);
+                }
                 continue;
             }
             $text .= $this->getMetaData($fileMeta);
@@ -231,7 +236,7 @@ class Convert
                         $this->message("Redirect target not exists: " . $text . $targetFile);
                     }
 
-                    $lagacyFile = $dir . $fileMeta['filename'] . $ext;
+                    $lagacyFile = $this->output . $dir . $fileMeta['filename'] . $ext;
                     $this->message("Delete lagacy page: ", unlink($lagacyFile));
                     return null;
                 }
@@ -242,6 +247,8 @@ class Convert
         
         if ($fileMeta['type'] == 3 || mb_strlen($text) < 1024) {
             $this->message("Ignroe short: " . $text);
+            $lagacyFile = $this->output . "Page/" . $fileMeta['filename'] . ".md";
+            $this->message("Delete short page: ", unlink($lagacyFile));
             return null;
         }
         
