@@ -76,11 +76,12 @@ function Link(el)
     if ctxt and starts_with(ctxt, el.target) then
       if ctxt ~= el.target then
         suffix = ctxt:sub(1 + #el.target)
-        el.content[1].text = el.target
+        el.content[1].text = el.target .. "↗"
         el.target = wiki_prefix .. el.target 
         return {el, pandoc.Str(suffix)} 
       end
     end
+    el.content[1].text = ctxt .. "↗"
     el.target = wiki_prefix .. el.target
     return el
   else 
