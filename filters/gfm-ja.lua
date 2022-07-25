@@ -121,12 +121,22 @@ function RawBlock(el)
       end
     end
     if istarts_with(tplName, "cite ") then
-      if t['archive-url'] then
-        if !t['url'] then
-          t['url'] = t['archive-url']
+      title=t['title']
+      url=t['url']
+      if t['dead-url']=="yes" or url==nil then
+        if t['archive-url'] then
+          url = t['archive-url']
+        elseif t['archiveurl'] then
+          url = t['archiveurl']
         end
       end
-      return pandoc.Link(t['title'], t['url'])
+      if title==nil then
+        title=t['publisher']
+      end
+      if title and url then
+        return pandoc.Link(title, url)
+      end
+      return pandoc.Str(el.text)
     end
   end
   return nil
