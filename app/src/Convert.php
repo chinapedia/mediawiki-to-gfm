@@ -207,7 +207,7 @@ class Convert
 
         if (mb_strpos($text, "#") === 0) {
             $target="";
-            if (mb_strpos($text, "#REDIRECT") === 0) {
+            if (mb_stripos($text, "#REDIRECT") === 0) {
                 $target = mb_substr($text, mb_strlen("#REDIRECT"));
             } else if (mb_strpos($text, "#重定向") === 0) {
                 $target = mb_substr($text, mb_strlen("#重定向"));
@@ -227,18 +227,20 @@ class Convert
                     if (file_exists($this->output . $targetFile)) {
                         $this->message("Redirect: " . $fileMeta['filename'] . " -> " . $targetFile);
                         symlink("../" . $targetFile, $this->output . "Redirect/" . $fileMeta['filename'] . $ext);
-                        return null;
                     } else {
                         $this->message("Redirect target not exists: " . $text . $targetFile);
                     }
+
+                    $lagacyFile = $dir . $fileMeta['filename'] . $ext;
+                    $this->message("Delete lagacy page: ", unlink($lagacyFile));
+                    return null;
                 }
             }
             $this->message("Ignroe redirect: " . $text);
-            
             return null;
         }
         
-        if ($fileMeta['type'] == 3 && mb_strlen($text) < 1024) {
+        if ($fileMeta['type'] == 3 || mb_strlen($text) < 1024) {
             $this->message("Ignroe short: " . $text);
             return null;
         }
