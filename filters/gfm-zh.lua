@@ -1,5 +1,9 @@
 local wiki_prefix = "https://zh.wikipedia.org/wiki/"
 
+function all_trim(s)
+   return s:match( "^%s*(.-)%s*$" )
+end
+
 local function starts_with(str, start)
   return str:sub(1, #start) == start
 end
@@ -76,12 +80,12 @@ function Link(el)
     if ctxt and starts_with(ctxt, el.target) then
       if ctxt ~= el.target then
         suffix = ctxt:sub(1 + #el.target)
-        el.content[1].text = el.target .. "↗"
+        el.content[1].text = el.target .. "ⓦ"
         el.target = wiki_prefix .. el.target 
         return {el, pandoc.Str(suffix)} 
       end
     end
-    el.content[1].text = ctxt .. "↗"
+    el.content[1].text = ctxt .. "ⓦ"
     el.target = wiki_prefix .. el.target
     return el
   else 
@@ -107,7 +111,7 @@ end
 
 function RawBlock(el)
   if starts_with(el.text, '{{') then
-    tpl=el.text:sub(3, #el.text - 2)
+    tpl=all_trim(el.text:sub(3, #el.text - 2))
     local t={}
     tplName=""
     for str in string.gmatch(tpl, "([^|]+)") do
@@ -124,21 +128,30 @@ function RawBlock(el)
     if istarts_with(tplName, "cite ") then
       title=t['title']
       url=t['url']
-      if t['dead-url']=="yes" or url==nil then
-        if t['archive-url'] then
-          url = t['archive-url']
-        elseif t['archiveurl'] then
-          url = t['archiveurl']
-        end
+      archiveUrl=t['archive-url']
+      if t['archiveurl'] then
+        archiveUrl = t['archiveurl']
       end
+      
       if title==nil then
         title=t['publisher']
       end
       if title and url then
+        if t['dead-url']=="yes" then
+          return pandoc.Link(title, archiveUrl)
+        end
         return pandoc.Link(title, url)
       end
       return pandoc.Str(el.text)
     end
+
+    if special_page_exists("Template",tplName) and #t == 0 then
+      local tplFile = io.open(wiki_path .. "/Template/" .. tplName .. ".md", 'rb')
+      local content = tplFile:read "*a"
+      tplFile:close()
+      return pandoc.RawInline('mediawiki', content)
+    end
+  
   end
   return nil
 end
