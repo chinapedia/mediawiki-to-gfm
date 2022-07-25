@@ -182,7 +182,7 @@ class Convert
                 $errmsg=$e->getMessage();
                 $this->message("Caught exception {$fileMeta['filename']}: ", $errmsg);
                 $fileMeta['directory'] = $this->output . "Errors/";
-                if (stripos($errmsg, "Error") >= 0) {
+                if (stripos($errmsg, "Error at") >= 0) {
                     $this->saveFile($fileMeta, json_encode($fileMeta) . " -> ". $errmsg, ".log");
                 } else {
                     $lagacyFile = $fileMeta['directory']  . $fileMeta['filename'] . ".log";
