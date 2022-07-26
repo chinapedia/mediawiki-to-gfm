@@ -169,25 +169,36 @@ class Convert
             }
 
             try {
+                $lang = getenv("WIKILANG");
                 $this->message("pandoc: {$fileMeta['filename']}: ");
+                $errpath=$this->output . "Errors/" . $fileMeta['filename'];
+                $procOpt = [];
+                $procOpt["stdout"] = $errpath . ".log";
+                $procOpt["stderr"] = $errpath . ".err.log";
+                $procOpt["timeout"] = 3;
                 $this->pandocOptions["variable"] = [
                     "\"cfmtitle={$fileMeta['title']}\"",
-                    "\"cfmurl={$fileMeta['url']}\""
+                    "\"cfmurl={$fileMeta['url']}\"",
+                    "\"WIKILANG={$lang}\"",
+                    "\"stdout={$errpath}.log\""
                 ];
-                $text = $this->runPandoc($text);
+                
+                file_put_contents($procOpt["stdout"], $text);
+                $this->runPandoc($text, $procOpt);
+                $text = file_get_contents($procOpt["stdout"]);
+                unlink($procOpt["stdout"]);
                 if (empty($text)) {
                     continue;
+                }
+                $stderr = file_get_contents($procOpt["stderr"]);
+                if (mb_strlen($stderr) > 0) {
+                    $this->message("Caught stderr {$fileMeta['filename']}: ", $stderr);
+                } else {
+                    unlink($procOpt["stderr"]);
                 }
             } catch (\Throwable $e) {
                 $errmsg=$e->getMessage();
                 $this->message("Caught exception {$fileMeta['filename']}: ", $errmsg);
-                $fileMeta['directory'] = $this->output . "Errors/";
-                if (stripos($errmsg, "Error at") !== false) {
-                    $this->saveFile($fileMeta, json_encode($fileMeta) . " -> ". $errmsg, ".log");
-                } else {
-                    $lagacyFile = $fileMeta['directory']  . $fileMeta['filename'] . ".log";
-                    unlink($lagacyFile);
-                }
                 continue;
             }
             $text .= $this->getMetaData($fileMeta);
@@ -266,13 +277,13 @@ class Convert
      * @param  string $text Text to convert
      * @return string Converted Text
      */
-    public function runPandoc($text)
+    public function runPandoc($text, $procOpt)
     {
         if ($this->pandocOptions["from"] === $this->pandocOptions["to"]) {
             return $text;
         }
         
-        $text = $this->pandoc->runWith($text, $this->pandocOptions, 3);
+        $text = $this->pandoc->runWith($text, $this->pandocOptions, $procOpt);
         $text = str_replace('\_', '_', $text);
 
         return $text;
