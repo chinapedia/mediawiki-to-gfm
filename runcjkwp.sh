@@ -16,13 +16,7 @@ VERSION=`date '+%Y%m10'`
 if [ "$day" -gt "23" ]; then
     VERSION=`date '+%Y%m20'`
 fi
-
-if [ $1 = "-f" ]; then
-    VERSION=`cat VERSION | head -n1`
-    export WIKILANG=$2
-else
-    date '+%Y%m01' > VERSION
-fi
+echo $VERSION > VERSION
 
 DATADIR=$WIKILANG"wiki"
 FILTER="filters/gfm-"$WIKILANG".lua"

@@ -249,7 +249,7 @@ class Convert
                     }
 
                     $lagacyFile = $this->output . $dir . $fileMeta['filename'] . $ext;
-                    $this->message("Delete lagacy page: ", unlink($lagacyFile));
+                    $this->message("Delete lagacy page: ", @unlink($lagacyFile));
                     return null;
                 }
             }
