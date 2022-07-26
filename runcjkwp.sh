@@ -1,20 +1,25 @@
-WIKILANG=$1
+export WIKILANG=$1
 if [ $1 = "-c" ]; then
-    WIKILANG=$2
+    export WIKILANG=$2
 fi
 
 if [ $1 = "-r" ]; then
-    WIKILANG=$2
+    export WIKILANG=$2
 fi
 
 if [ -z $WIKILANG ]; then
-    WIKILANG=zh
+    export WIKILANG=zh
 fi
 
-VERSION=`date '+%Y%m01'`
+day=$(date +%d)
+VERSION=`date '+%Y%m10'`
+if [ "$day" -gt "23" ]; then
+    VERSION=`date '+%Y%m20'`
+fi
+
 if [ $1 = "-f" ]; then
     VERSION=`cat VERSION | head -n1`
-    WIKILANG=$2
+    export WIKILANG=$2
 else
     date '+%Y%m01' > VERSION
 fi
@@ -75,6 +80,7 @@ for url in $(cat $DATADIR/$VERSION.sh); do
 
         php -d memory_limit=4096M convert.php --filename="$DATADIR"/"$counter" --output="$REPO" --luafilter="$FILTER" --template=cfm-"$WIKILANG"
         cd $REPO
+        find Errors -name "*.log" -type f -size -1c -delete
         git add .
         git commit -m "Convert from $VERSION stream$counter"
         git push
