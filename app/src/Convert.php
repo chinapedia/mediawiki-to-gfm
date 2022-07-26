@@ -183,19 +183,20 @@ class Convert
                     "\"stdout={$errpath}.log\""
                 ];
                 
-                file_put_contents($procOpt["stdout"], $text);
+                file_put_contents($errpath . ".wikitext", $text);
                 $this->runPandoc($text, $procOpt);
                 $text = file_get_contents($procOpt["stdout"]);
-                unlink($procOpt["stdout"]);
-                if (empty($text)) {
-                    continue;
-                }
+                @unlink($procOpt["stdout"]);
                 $stderr = file_get_contents($procOpt["stderr"]);
                 if (mb_strlen($stderr) > 0) {
                     $this->message("Caught stderr {$fileMeta['filename']}: ", $stderr);
                 } else {
-                    unlink($procOpt["stderr"]);
+                    @unlink($procOpt["stderr"]);
                 }
+                if (empty($text)) {
+                    continue;
+                }
+                @unlink($errpath . ".wikitext");
             } catch (\Throwable $e) {
                 $errmsg=$e->getMessage();
                 $this->message("Caught exception {$fileMeta['filename']}: ", $errmsg);
@@ -257,9 +258,9 @@ class Convert
         }
         
         if ($fileMeta['type'] == 3 || mb_strlen($text) < 1024) {
-            $this->message("Ignroe short: " . $text);
             $lagacyFile = $this->output . "Page/" . $fileMeta['filename'] . ".md";
-            $this->message("Delete short page: ", unlink($lagacyFile));
+            @unlink($lagacyFile);
+            $this->message("Delete short page: ", $fileMeta['filename']);
             return null;
         }
         

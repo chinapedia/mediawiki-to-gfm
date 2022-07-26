@@ -13,6 +13,8 @@ if [ "$1" == "en" ]; then
     for x in {A..Z}; do mv Page/$x*md Page."$x"; done 
 fi
 
+find Errors -name "*.log" -type f -size -1c -delete
+git add Errors
 git add Page
 git commit -am "Partially convert from $VERSION stream$filename"
 #git pull
