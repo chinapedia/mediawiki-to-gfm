@@ -12,7 +12,7 @@ if [ -z $WIKILANG ]; then
 fi
 
 day=$(date +%d)
-VERSION=`date '+%Y%m10'`
+VERSION=`date '+%Y%m01'`
 if [ "$day" -gt "23" ]; then
     VERSION=`date '+%Y%m20'`
 fi
@@ -85,7 +85,7 @@ for url in $(cat $DATADIR/$VERSION.sh); do
 done
 
 cd $REPO
-sed -i "s/[0-9]\+/$VERSION/g" README.md
+sed -i .bak -E "s/[0-9]{8}/20220801/g" README.md
 git add README.md
 git commit -m "Set version to $VERSION"
 git push

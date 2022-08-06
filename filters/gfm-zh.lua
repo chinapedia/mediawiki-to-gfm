@@ -113,8 +113,9 @@ function Link(el)
     end
   else
     ctxt = el.content[1].text
-    if not ctxt:
+    if not ctxt then
       return nil
+    end
     if ctxt and starts_with(ctxt, el.target) then
       if ctxt ~= el.target then
         suffix = ctxt:sub(1 + #el.target)
