@@ -168,7 +168,7 @@ function RawBlock(el)
         title=t['publisher']
       end
       if title and url then
-        if t['dead-url']=="yes" then
+        if t['dead-url']=="yes" and archiveUrl then
           return pandoc.Link(title, archiveUrl)
         end
         return pandoc.Link(title, url)
@@ -210,11 +210,11 @@ function RawInline(el)
     return nil
   end
 
-  if istarts_with(tplNames[1],"lang-") and #tplNames[1] == 7 then
+  if istarts_with(tplNames[1],"lang-") and #tplNames[1] >= 7 then
     if #tplNames==1 then
       return nil
     end
-    lang=tplNames[1]:sub(-2)
+    lang=tplNames[1]:sub(6)
     if lang:lower() == "en" then
       return pandoc.Str("英語：" .. tplNames[2])
     end
@@ -223,10 +223,7 @@ function RawInline(el)
 
   if tplNames[1]:lower() == "lang" then
     if #tplNames>2 then
-      if tplNames[2]:lower() == "en" then
-        return pandoc.Str("英語：" .. tplNames[3])
-      end
-      return pandoc.Str(tplNames[2] .. ":" .. tplNames[3])
+      return pandoc.Str(tplNames[3])
     end
     return nil
   end
