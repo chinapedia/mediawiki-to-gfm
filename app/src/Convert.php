@@ -222,7 +222,7 @@ class Convert
         // decode inline html
         $text = html_entity_decode($text);
 
-        if (mb_strpos($text, "#") === 0) {
+        if ($fileMeta['type']>=200 && mb_strpos($text, "#") === 0) {
             $target="";
             if (mb_stripos($text, "#REDIRECT") === 0) {
                 $target = mb_substr($text, mb_strlen("#REDIRECT"));
@@ -249,7 +249,12 @@ class Convert
                     }
 
                     $lagacyFile = $this->output . $dir . $fileMeta['filename'] . $ext;
-                    $this->message("Delete lagacy page: ", @unlink($lagacyFile));
+                    if (filesize($lagacyFile) < 10000) {
+                        @unlink($lagacyFile);
+                        $this->message("Delete lagacy page: ", $fileMeta['filename']);
+                    } else {
+                        $this->message("Skip lagacy page: ", $fileMeta['filename']);
+                    }
                     return null;
                 }
             }
@@ -257,7 +262,7 @@ class Convert
             return null;
         }
         
-        if ($fileMeta['type'] == 3 || mb_strlen($text) < 1024) {
+        if (mb_strlen($text) < 1024) {
             $lagacyFile = $this->output . "Page/" . $fileMeta['filename'] . ".md";
             @unlink($lagacyFile);
             $this->message("Delete short page: ", $fileMeta['filename']);
