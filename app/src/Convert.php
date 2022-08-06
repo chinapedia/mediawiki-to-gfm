@@ -251,9 +251,9 @@ class Convert
                     $lagacyFile = $this->output . $dir . $fileMeta['filename'] . $ext;
                     if (filesize($lagacyFile) < 10000) {
                         @unlink($lagacyFile);
-                        $this->message("Delete lagacy page: ", $fileMeta['filename']);
+                        $this->message("Delete lagacy page: " . $lagacyFile);
                     } else {
-                        $this->message("Skip lagacy page: ", $fileMeta['filename']);
+                        $this->message("Skip lagacy page: ", $lagacyFile);
                     }
                     return null;
                 }
@@ -263,9 +263,9 @@ class Convert
         }
         
         if (mb_strlen($text) < 1024) {
-            $lagacyFile = $this->output . "Page/" . $fileMeta['filename'] . ".md";
+            $lagacyFile = $this->output . $fileMeta['directory'] . $fileMeta['filename'] . ".md";
             @unlink($lagacyFile);
-            $this->message("Delete short page: ", $fileMeta['filename']);
+            $this->message("Delete short page: ", $lagacyFile);
             return null;
         }
         
