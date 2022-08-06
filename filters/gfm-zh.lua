@@ -28,7 +28,7 @@ end
 
 local wiki_path = "../wikipedia.zh"
 if not file_exists( wiki_path .. "/README.md") then
-  wiki_path = "/mnt/t/chinapedia/wikipedia.zh"
+  wiki_path = "~/chinapedia/wikipedia.zh"
 end
 
 local function category_exists(c)
@@ -195,4 +195,39 @@ function Blocks(el)
     end
   end
   return nil
+end
+
+function RawInline(el)
+  if not starts_with(el.text, '{{') then
+    return nil
+  end
+  tpl=all_trim(el.text:sub(3, #el.text - 2))
+  tplNames={}
+  for str in string.gmatch(tpl, "([^|]+)") do
+    table.insert(tplNames, str)
+  end
+  if #tplNames == 0 then
+    return nil
+  end
+
+  if istarts_with(tplNames[1],"lang-") and #tplNames[1] == 7 then
+    if #tplNames==1 then
+      return nil
+    end
+    lang=tplNames[1]:sub(-2)
+    if lang:lower() == "en" then
+      return pandoc.Str("英語：" .. tplNames[2])
+    end
+    return pandoc.Str(lang .. ":" .. tplNames[2])
+  end
+
+  if tplNames[1]:lower() == "lang" then
+    if #tplNames>2 then
+      if tplNames[2]:lower() == "en" then
+        return pandoc.Str("英語：" .. tplNames[3])
+      end
+      return pandoc.Str(tplNames[2] .. ":" .. tplNames[3])
+    end
+    return nil
+  end
 end
