@@ -50,25 +50,25 @@ Overview of the Common Language Runtime release history[^3]
 
 ## See also
 
--   [Common Intermediate
-    Language](https://en.wikipedia.org/wiki/Common_Intermediate_Language "wikilink")
--   [List of CLI
-    languages](https://en.wikipedia.org/wiki/List_of_CLI_languages "wikilink")
--   [Java virtual
-    machine](https://en.wikipedia.org/wiki/Java_virtual_machine "wikilink")
+- [Common Intermediate
+  Language](https://en.wikipedia.org/wiki/Common_Intermediate_Language "wikilink")
+- [List of CLI
+  languages](https://en.wikipedia.org/wiki/List_of_CLI_languages "wikilink")
+- [Java virtual
+  machine](https://en.wikipedia.org/wiki/Java_virtual_machine "wikilink")
 
 ## References
 
 ## External links
 
--   [Components of Common Language
-    Runtime](http://www.informit.com/articles/article.aspx?p=30601)
--   [Components of
-    CLR](https://web.archive.org/web/20110425220519/http://www.visualbuilder.com/dotnet/tutorial/clr-%28common-language-runtime%29/)
--   [Overview of the .NET Framework
-    4.0](http://msdn.microsoft.com/en-us/library/a4t23ktk.aspx)
--   [.NET Framework Conceptual
-    Overview](http://msdn.microsoft.com/en-us/library/zw4w595w.aspx)
+- [Components of Common Language
+  Runtime](http://www.informit.com/articles/article.aspx?p=30601)
+- [Components of
+  CLR](https://web.archive.org/web/20110425220519/http://www.visualbuilder.com/dotnet/tutorial/clr-%28common-language-runtime%29/)
+- [Overview of the .NET Framework
+  4.0](http://msdn.microsoft.com/en-us/library/a4t23ktk.aspx)
+- [.NET Framework Conceptual
+  Overview](http://msdn.microsoft.com/en-us/library/zw4w595w.aspx)
 
 [Category:.NET_Framework_terminology](https://en.wikipedia.org/wiki/Category:.NET_Framework_terminology "wikilink")
 [Category:Stack-based_virtual_machines](https://en.wikipedia.org/wiki/Category:Stack-based_virtual_machines "wikilink")
