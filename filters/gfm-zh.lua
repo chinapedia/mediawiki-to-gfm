@@ -147,10 +147,12 @@ function RawBlock(el)
     tplNames={}
     for str in string.gmatch(tpl, "([^|]+)") do
       found=0
-      kvs=string.gmatch(str, "([-%w]+)=(.+)")
+      kvs=string.gmatch(str, "(%s*[-%w]+%s*)=(.*)")
       for k,v in kvs do
-        t[k]=v
-        found=1 
+        if k and v then
+          t[all_trim(k)]=all_trim(v)
+          found=1
+        end
       end
       if found == 0 then
         table.insert(tplNames, str)
