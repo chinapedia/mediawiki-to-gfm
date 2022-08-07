@@ -4,6 +4,7 @@ VERSIONPATH="$SCRIPTPATH/VERSION"
 VERSION=`cat $VERSIONPATH | head -n1`
 
 filename=`ps aux|grep "convert.php"|awk '{print $15}'|awk -F'/' '{print $2}'`
+filename=${filename##[[:space:]]}
 [[ -z "$filename" ]] && {
     echo "Process not found"
     exit 1

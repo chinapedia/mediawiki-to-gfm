@@ -144,7 +144,7 @@ function RawBlock(el)
   if starts_with(el.text, '{{') then
     tpl=all_trim(el.text:sub(3, #el.text - 2))
     local t={}
-    tplName=""
+    tplNames={}
     for str in string.gmatch(tpl, "([^|]+)") do
       found=0
       kvs=string.gmatch(str, "([-%w]+)=(.+)")
@@ -153,10 +153,15 @@ function RawBlock(el)
         found=1 
       end
       if found == 0 then
-        tplName=str
+        table.insert(tplNames, str)
       end
     end
-    if istarts_with(tplName, "cite ") then
+    if #tplNames == 0 then
+      return nil
+    end
+
+    tplName = tplNames[1]
+    if istarts_with(tplName, "cite ") then -- cite web/book/...
       title=t['title']
       url=t['url']
       archiveUrl=t['archive-url']
