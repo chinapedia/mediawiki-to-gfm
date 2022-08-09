@@ -17,8 +17,7 @@ fi
 find Errors -name "*.log" -type f -size -1c -delete
 git add Errors
 git add Page
+git add Redirect
 git commit -am "Partially convert from $VERSION stream$filename"
-#git pull
-#git rebase
 git push
 

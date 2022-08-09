@@ -152,8 +152,11 @@ class Convert
             }
 
             if ($fileMeta['type'] == 3) {
-                $this->message("Template: " . json_encode($fileMeta) . " -> " . $text);
-                $this->saveFile($fileMeta, $text, ".wikitext");
+                if (strlen($text) > 1024) {
+                    $this->saveFile($fileMeta, $text, ".wikitext");
+                } else {
+                    $this->message("Template: " . json_encode($fileMeta) . " -> " . $text);
+                }
                 continue;
             }
             
@@ -338,8 +341,8 @@ class Convert
             if (0 === mb_strpos(strtolower($title), strtolower($sp . ":"))) {
                 $type = $pageType;
                 $directory = $sp . "/";
-                $filename = mb_substr($title, strlen($sp) + 1);
-                $filename = str_replace('/', '_', $filename);
+                $filename = mb_substr($filename, mb_strlen($directory));
+                $filename = mb_str_replace('/', '_', $filename);
                 if ($sp === "File") {
                     return null;
                 }
@@ -359,6 +362,7 @@ class Convert
                     $directory  = '';
                 } else {
                     $directory = rtrim($directory, '/') . '/';
+                    mkdir($this->output . $directory, 0777, true);
                 }
                 $type = 201;
             } else {
