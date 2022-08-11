@@ -1,5 +1,9 @@
 local wiki_prefix = "https://en.wikipedia.org/wiki/"
 
+function all_trim(s)
+   return s:match( "^%s*(.-)%s*$" )
+end
+
 local function starts_with(str, start)
   return str:sub(1, #start) == start
 end
@@ -24,23 +28,15 @@ end
 
 local wiki_path = "../wikipedia.en"
 if not file_exists( wiki_path .. "/README.md") then
-  wiki_path = "/mnt/chinapedia/wikipedia.en"
+  wiki_path = "~/chinapedia/wikipedia.en"
 end
 
 local function category_exists(c)
   return false
 end
 
-local function page(t)
-    firstCh = t:sub(1,1)
-    if firstCh:match("%u") then
-        return "Page." .. firstCh:upper()
-    end
-    return "Page"
-end
-
 local function page_exists(p)
-    return file_exists(wiki_path .. "/" .. page(p) .. "/" .. p .. ".md")
+    return file_exists(wiki_path .. "/Page/" .. p .. ".md")
 end
 
 local function special_page_exists(sp, p)
@@ -62,24 +58,81 @@ function Link(el)
   elseif istarts_with(el.target, ":Category:") then
     local c = string.sub(el.target, 1 + #":Category:")
     if not category_exists(c) then
-        el.target = "https://en.wikipedia.org/wiki/Category:" .. c
+        el.target = "https://zh.wikipedia.org/wiki/Category:" .. c
         return el
     end
     el.target = "../Category/" .. c
+  elseif istarts_with(el.target, "MediaWiki:") then
+    local c = string.sub(el.target, 1 + #"MediaWiki:")
+    if not special_page_exists("MediaWiki", c) then
+        el.target = "https://zh.wikipedia.org/wiki/MediaWiki:" .. c
+        return el
+    end
+    el.target = "../MediaWiki/" .. c
   elseif istarts_with(el.target, "Wikipedia:") or istarts_with(el.target, "WP:") then
-    el.target = "https://en.wikipedia.org/wiki/" .. el.target
-    return el
-  elseif istarts_with(el.target, "Help:") then
-    el.target = "https://en.wikipedia.org/wiki/" .. el.target
-    return el
-  elseif not page_exists(el.target) then
     el.target = wiki_prefix .. el.target
     return el
+  elseif istarts_with(el.target, "Help:") then
+    el.target = wiki_prefix .. el.target
+    return el
+  elseif page_exists(el.target) then
+    ctxt = el.content[1].text
+    if ctxt and starts_with(ctxt, el.target) then
+      if ctxt ~= el.target then
+        suffix = ctxt:sub(1 + #el.target)
+        el.content[1].text = el.target
+        el.target = "../Page/" .. el.target .. ".md"
+        return {el, pandoc.Str(suffix)} 
+      end
+    end
+    el.target = "../Page/" .. el.target
+  elseif special_page_exists("Redirect", el.target) then
+    ctxt = el.content[1].text
+    -- realpath = fs.readlink(wiki_path .. "/Redirect/" .. el.target .. ".md")
+    realpath=io.popen('readlink "' .. wiki_path .. "/Redirect/" .. el.target .. ".md" ..'"'):read()
+    realpathcomp = {}
+    realname=""
+    for str in string.gmatch(realpath, "([^/]+)") do
+      table.insert(realpathcomp, str)
+      realname=str
+    end
+    if #realpathcomp < 2 or #realname==0 then
+      el.target = "../Redirect/" .. el.target .. ".md"
+      if #el.content == 1 then
+        el.content[1].text = el.content[1].text .. "Ⓡ"
+      end
+      return el
+    elseif ctxt and starts_with(ctxt, el.target) and ctxt ~= el.target then
+      suffix = ctxt:sub(1 + #el.target)
+      el.content[1].text = el.target
+      el.target = "../Page/" .. realname
+      return {el, pandoc.Str(suffix)}
+    else
+      el.target = "../Page/" .. realname
+      return el
+    end
   else
-    el.target = "../" .. page(el.target) .. "/" .. el.target
+    ctxt = el.content[1].text
+    if not ctxt then
+      return nil
+    end
+    if ctxt and starts_with(ctxt, el.target) then
+      if ctxt ~= el.target then
+        suffix = ctxt:sub(1 + #el.target)
+        if #el.content == 1 then
+          el.content[1].text = el.target .. "ⓦ"
+        end
+        el.target = wiki_prefix .. el.target 
+        return {el, pandoc.Str(suffix)} 
+      end
+    end
+    if #el.content == 1 then
+      el.content[1].text = ctxt .. "ⓦ"
+    end
+    el.target = wiki_prefix .. el.target
+    return el
   end
   el.target = el.target .. ".md"
-  
   return el
 end
 
@@ -89,28 +142,96 @@ end
 
 function RawBlock(el)
   if starts_with(el.text, '{{') then
-    tpl=el.text:sub(3, #el.text - 2)
+    tpl=all_trim(el.text:sub(3, #el.text - 2))
     local t={}
-    tplName=""
+    tplNames={}
     for str in string.gmatch(tpl, "([^|]+)") do
       found=0
-      kvs=string.gmatch(str, "([-%w]+)=(.+)")
+      kvs=string.gmatch(str, "(%s*[-%w]+%s*)=(.*)")
       for k,v in kvs do
-        t[k]=v
-        found=1 
-      end
-      if found == 0 then
-        tplName=str
-      end
-    end
-    if istarts_with(tplName, "cite ") then
-      if t['archive-url'] then
-        if nil==t['url'] then
-          t['url'] = t['archive-url']
+        if k and v then
+          t[all_trim(k)]=all_trim(v)
+          found=1
         end
       end
-      return pandoc.Link(t['title'], t['url'])
+      if found == 0 then
+        table.insert(tplNames, str)
+      end
+    end
+    if #tplNames == 0 then
+      return nil
+    end
+
+    tplName = tplNames[1]
+    if istarts_with(tplName, "cite ") then -- cite web/book/...
+      title=t['title']
+      url=t['url']
+      archiveUrl=t['archive-url']
+      if t['archiveurl'] then
+        archiveUrl = t['archiveurl']
+      end
+      
+      if title==nil then
+        title=t['publisher']
+      end
+      if title and url then
+        if t['dead-url']=="yes" and archiveUrl then
+          return pandoc.Link(title, archiveUrl)
+        end
+        return pandoc.Link(title, url)
+      end
+      return pandoc.Str(el.text)
+    end
+
+    if special_page_exists("Template",tplName) and #t == 0 then
+      local tplFile = io.open(wiki_path .. "/Template/" .. tplName .. ".md", 'rb')
+      local content = tplFile:read "*a"
+      tplFile:close()
+      return pandoc.RawInline('mediawiki', content)
+    end
+  
+  end
+  return nil
+end
+
+function Blocks(el)
+  if #el > 0 then
+    btext=el[1].text
+    if btext and istarts_with(btext, "{{cite book") then
+      return pandoc.Str''
     end
   end
   return nil
+end
+
+function RawInline(el)
+  if not starts_with(el.text, '{{') then
+    return nil
+  end
+  tpl=all_trim(el.text:sub(3, #el.text - 2))
+  tplNames={}
+  for str in string.gmatch(tpl, "([^|]+)") do
+    table.insert(tplNames, str)
+  end
+  if #tplNames == 0 then
+    return nil
+  end
+
+  if istarts_with(tplNames[1],"lang-") and #tplNames[1] >= 7 then
+    if #tplNames==1 then
+      return nil
+    end
+    lang=tplNames[1]:sub(6)
+    if lang:lower() == "en" then
+      return pandoc.Str("English：" .. tplNames[2])
+    end
+    return pandoc.Str(lang .. ":" .. tplNames[2])
+  end
+
+  if tplNames[1]:lower() == "lang" then
+    if #tplNames>2 then
+      return pandoc.Str(tplNames[3])
+    end
+    return nil
+  end
 end
