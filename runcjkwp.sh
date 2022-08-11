@@ -87,6 +87,7 @@ done
 cd $REPO
 sed -i .bak -E "s/[0-9]{8}/20220801/g" README.md
 git add README.md
+rm README.md.bak
 git commit -m "Set version to $VERSION"
 git push
 

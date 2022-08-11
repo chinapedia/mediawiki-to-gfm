@@ -331,6 +331,7 @@ class Convert
         $title = (string)$title[0];
         $url = str_replace(' ', '_', $title);
         $filename = $url;
+        $filename = str_replace("&", "@", $filename);
         $directory = '';
         $type = 200;
 
@@ -342,7 +343,7 @@ class Convert
                 $type = $pageType;
                 $directory = $sp . "/";
                 $filename = mb_substr($filename, mb_strlen($directory));
-                $filename = mb_str_replace('/', '_', $filename);
+                $filename = str_replace('/', '_', $filename);
                 if ($sp === "File") {
                     return null;
                 }
@@ -353,18 +354,13 @@ class Convert
         if ($type >= 200) {
             if ($slash = mb_strpos($url, '/')) {
                 $title = str_replace('/', ' ', $title);
-                $url_parts = pathinfo($url);
-                $directory = $url_parts['dirname'];
-                $filename = $url_parts['basename']; // Avoids breaking names with periods on them
-                $this->directory_list[] = $directory;
-                if ($this->flatten && $directory != '') {
-                    $filename = str_replace('/', '_', $directory) . '_' . $filename;
-                    $directory  = '';
-                } else {
-                    $directory = rtrim($directory, '/') . '/';
-                    mkdir($this->output . $directory, 0777, true);
-                }
+                $filename = $title;
+                $directory = "Page/";
                 $type = 201;
+            } else if ($slash = mb_strpos($url, ':')) {
+                $directory = mb_substr($url, 0, $slash) . "/";
+                $filename = mb_substr($url, $slash + 1);
+                $type = 202;
             } else {
                 if ($this->format === "mediawiki") {
                     $directory = mb_substr($url, 0, 1) . '/';
