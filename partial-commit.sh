@@ -15,7 +15,7 @@ if [ "$1" == "en" ]; then
 fi
 
 find Errors -name "*.log" -type f -size -1c -delete
-git add Errors
+git add Errors/*.err.log
 git add Page
 git add Redirect
 git commit -am "Partially convert from $VERSION stream$filename"
