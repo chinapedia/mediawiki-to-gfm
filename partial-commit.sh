@@ -10,11 +10,8 @@ filename=${filename##[[:space:]]}
     exit 1
 }
 
-if [ "$1" == "en" ]; then
-    for x in {A..Z}; do mv Page/$x*md Page."$x"; done 
-fi
-
 find Errors -name "*.log" -type f -size -1c -delete
+rm Errors/*.wikitext
 git add Errors/*.err.log
 git add Page
 git add Redirect

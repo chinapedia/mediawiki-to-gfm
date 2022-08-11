@@ -112,6 +112,9 @@ function Link(el)
       return el
     end
   else
+    if not el.content then
+      return nil
+    end
     ctxt = el.content[1].text
     if not ctxt then
       return nil

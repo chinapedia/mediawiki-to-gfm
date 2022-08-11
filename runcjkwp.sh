@@ -71,9 +71,11 @@ for url in $(cat $DATADIR/$VERSION.sh); do
         bzip2 -dk $counter.bz2
     fi
     cd ..
-
+        mkdir "$REPO/Errors"
+        mkdir "$REPO/Redirect"
         php -d memory_limit=4096M convert.php --filename="$DATADIR"/"$counter" --output="$REPO" --luafilter="$FILTER" --template=cfm-"$WIKILANG"
         cd $REPO
+        rm Errors/*.wikitext
         find Errors -name "*.log" -type f -size -1c -delete
         git add .
         git commit -m "Convert from $VERSION stream$counter"
