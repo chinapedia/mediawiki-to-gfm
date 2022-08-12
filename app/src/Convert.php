@@ -335,7 +335,8 @@ class Convert
         $directory = '';
         $type = 200;
 
-        $specialPages = ["Wikipedia", "Help", "Category", "Template", "File", "Portal", "MediaWiki", "Draft", "ファイル"];
+        $specialPages = ["Wikipedia", "Help", "Category", "Template", "File", "Portal", "MediaWiki", "Draft", 
+                                                                      "ファイル"];
         $pageType = -1;
         foreach ($specialPages as $sp) {
             $pageType += 1;
