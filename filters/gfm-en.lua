@@ -43,6 +43,14 @@ local function special_page_exists(sp, p)
     return file_exists(wiki_path .. "/" .. sp .. "/" .. p .. ".md")
 end
 
+local function capitalize(t)
+    if t then
+        firstCh = t:sub(1,1)
+        return firstCh:upper() .. t:sub(2)
+    end 
+    return t
+end
+
 function Link(el)
   if el.title ~= "wikilink" then
     return el
@@ -81,11 +89,11 @@ function Link(el)
       if ctxt ~= el.target then
         suffix = ctxt:sub(1 + #el.target)
         el.content[1].text = el.target
-        el.target = "../Page/" .. el.target .. ".md"
+        el.target = "../Page/" .. capitalize(el.target) .. ".md"
         return {el, pandoc.Str(suffix)} 
       end
     end
-    el.target = "../Page/" .. el.target
+    el.target = "../Page/" .. capitalize(el.target)
   elseif special_page_exists("Redirect", el.target) then
     ctxt = el.content[1].text
     -- realpath = fs.readlink(wiki_path .. "/Redirect/" .. el.target .. ".md")
@@ -105,10 +113,10 @@ function Link(el)
     elseif ctxt and starts_with(ctxt, el.target) and ctxt ~= el.target then
       suffix = ctxt:sub(1 + #el.target)
       el.content[1].text = el.target
-      el.target = "../Page/" .. realname
+      el.target = "../Page/" .. capitalize(realname)
       return {el, pandoc.Str(suffix)}
     else
-      el.target = "../Page/" .. realname
+      el.target = "../Page/" .. capitalize(realname)
       return el
     end
   else
