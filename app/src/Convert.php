@@ -335,7 +335,7 @@ class Convert
         $directory = '';
         $type = 200;
 
-        $specialPages = ["Wikipedia", "Help", "Category", "Template", "File", "Portal", "MediaWiki", "Draft"];
+        $specialPages = ["Wikipedia", "Help", "Category", "Template", "File", "Portal", "MediaWiki", "Draft", "ファイル"];
         $pageType = -1;
         foreach ($specialPages as $sp) {
             $pageType += 1;
@@ -345,6 +345,9 @@ class Convert
                 $filename = mb_substr($filename, mb_strlen($directory));
                 $filename = str_replace('/', '_', $filename);
                 if ($sp === "File") {
+                    return null;
+                }
+                if ($sp === "ファイル") { // File for ja
                     return null;
                 }
                 break;
@@ -357,10 +360,6 @@ class Convert
                 $filename = $title;
                 $directory = "Page/";
                 $type = 201;
-            } else if ($slash = mb_strpos($url, ':')) {
-                $directory = mb_substr($url, 0, $slash) . "/";
-                $filename = mb_substr($url, $slash + 1);
-                $type = 202;
             } else {
                 if ($this->format === "mediawiki") {
                     $directory = mb_substr($url, 0, 1) . '/';
