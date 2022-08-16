@@ -31,23 +31,43 @@ if not file_exists( wiki_path .. "/README.md") then
   wiki_path = "~/chinapedia/wikipedia.zh"
 end
 
+local function capitalize(t)
+  if t then
+    if t:match '[^ -~\n\t]' then
+      return t
+    end
+    firstCh = t:sub(1,1)
+    return firstCh:upper() .. t:sub(2)
+  end 
+  return t
+end
+
 local function category_exists(c)
   return false
 end
 
-local function page_exists(p)
-    return file_exists(wiki_path .. "/Page/" .. p .. ".md")
+local function special_page_exists(sp, p)
+  if not p then
+    return nil
+  end
+  p=capitalize(p):gsub(" ","_")
+  path="/" .. sp .. "/" .. p .. ".md"
+  if file_exists(wiki_path .. path) then
+      return path
+  end
+  return nil
 end
 
-local function special_page_exists(sp, p)
-    return file_exists(wiki_path .. "/" .. sp .. "/" .. p .. ".md")
+local function page_exists(p)
+    return special_page_exists("Page", p)
 end
 
 function Link(el)
   if el.title ~= "wikilink" then
     return el
   end
-  
+  pagePath=page_exists(el.target)
+  redPath=special_page_exists("Redirect", el.target)
   if istarts_with(el.target, "Category:") then
     local c = string.sub(el.target, 1 + #"Category:")
     if not category_exists(c) then
@@ -75,21 +95,28 @@ function Link(el)
   elseif istarts_with(el.target, "Help:") then
     el.target = wiki_prefix .. el.target
     return el
-  elseif page_exists(el.target) then
+  elseif pagePath then
+    if not el.content then
+      return nil
+    end
     ctxt = el.content[1].text
     if ctxt and starts_with(ctxt, el.target) then
       if ctxt ~= el.target then
         suffix = ctxt:sub(1 + #el.target)
         el.content[1].text = el.target
-        el.target = "../Page/" .. el.target .. ".md"
+        el.target = ".." .. pagePath
         return {el, pandoc.Str(suffix)} 
       end
     end
-    el.target = "../Page/" .. el.target
-  elseif special_page_exists("Redirect", el.target) then
+    el.target = ".." .. pagePath
+    return el
+  elseif redPath then
+    if not el.content then
+      return nil
+    end
     ctxt = el.content[1].text
     -- realpath = fs.readlink(wiki_path .. "/Redirect/" .. el.target .. ".md")
-    realpath=io.popen('readlink "' .. wiki_path .. "/Redirect/" .. el.target .. ".md" ..'"'):read()
+    realpath=io.popen('readlink "' .. wiki_path .. redPath ..'"'):read()
     realpathcomp = {}
     realname=""
     for str in string.gmatch(realpath, "([^/]+)") do
@@ -105,10 +132,10 @@ function Link(el)
     elseif ctxt and starts_with(ctxt, el.target) and ctxt ~= el.target then
       suffix = ctxt:sub(1 + #el.target)
       el.content[1].text = el.target
-      el.target = "../Page/" .. realname
+      el.target = "../Page/" .. capitalize(realname)
       return {el, pandoc.Str(suffix)}
     else
-      el.target = "../Page/" .. realname
+      el.target = "../Page/" .. capitalize(realname)
       return el
     end
   else
