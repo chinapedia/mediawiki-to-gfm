@@ -33,8 +33,11 @@ end
 
 local function capitalize(t)
   if t then
-      firstCh = t:sub(1,1)
-      return firstCh:upper() .. t:sub(2)
+    if t:match '[^ -~\n\t]' then
+      return t
+    end
+    firstCh = t:sub(1,1)
+    return firstCh:upper() .. t:sub(2)
   end 
   return t
 end
@@ -93,11 +96,14 @@ function Link(el)
     el.target = wiki_prefix .. el.target
     return el
   elseif pagePath then
+    if not el.content then
+      return nil
+    end
     ctxt = el.content[1].text
     if ctxt and starts_with(ctxt, el.target) then
       if ctxt ~= el.target then
         suffix = ctxt:sub(1 + #el.target)
-        el.content[1].text = el.target .. "$"
+        el.content[1].text = el.target
         el.target = ".." .. pagePath
         return {el, pandoc.Str(suffix)} 
       end
@@ -105,6 +111,9 @@ function Link(el)
     el.target = ".." .. pagePath
     return el
   elseif redPath then
+    if not el.content then
+      return nil
+    end
     ctxt = el.content[1].text
     -- realpath = fs.readlink(wiki_path .. "/Redirect/" .. el.target .. ".md")
     realpath=io.popen('readlink "' .. wiki_path .. redPath ..'"'):read()

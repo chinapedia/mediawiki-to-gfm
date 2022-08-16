@@ -252,7 +252,7 @@ class Convert
                     }
 
                     $lagacyFile = $this->output . $dir . $fileMeta['filename'] . $ext;
-                    if (filesize($lagacyFile) < 10000) {
+                    if (filesize($lagacyFile) < 2048) {
                         @unlink($lagacyFile);
                         $this->message("Delete lagacy page: " . $lagacyFile);
                     } else {
@@ -267,7 +267,9 @@ class Convert
         
         if (mb_strlen($text) < 1024) {
             $lagacyFile = $this->output . $fileMeta['directory'] . $fileMeta['filename'] . ".md";
-            @unlink($lagacyFile);
+            if (filesize($lagacyFile) < 2048) {
+                @unlink($lagacyFile);
+            }
             $this->message("Delete short page: ", $lagacyFile);
             return null;
         }
