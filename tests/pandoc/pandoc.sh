@@ -11,6 +11,6 @@ done
 
 for i in '1' '2' '3'
 do
-    pandoc -f mediawiki -t gfm $i.mediawiki --lua-filter=../../filters/gfm-zh.lua > $i.md
+    pandoc -f mediawiki -t gfm+raw_html $i.mediawiki --lua-filter=../../filters/gfm-zh.lua > $i.md
 done
 

@@ -39,12 +39,62 @@ Language](https://en.wikipedia.org/wiki/Common_Intermediate_Language "wikilink")
 to native
 code.](https://en.wikipedia.org/wiki/File:CLR_diag.svg "fig:The CLR converts CIL (Common Intermediate Language) to native code.")
 
-| CLR version | .NET version                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1.0         | [1.0ⓦ](https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_1.0 "wikilink")                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 1.1         | [1.1ⓦ](https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_1.1 "wikilink")                                                                                                                                                                                                                                                                                                                                                                                                             |
-| 2.0         | [2.0ⓦ](https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_2.0 "wikilink"), [3.0ⓦ](https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_3.0 "wikilink"), [3.5ⓦ](https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_3.5 "wikilink")                                                                                                                                                                                                     |
-| 4           | [4ⓦ](https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_4 "wikilink"), [4.5ⓦ](https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_4.5 "wikilink"), [4.6ⓦ](https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_4.6 "wikilink"), [4.7ⓦ](https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_4.7 "wikilink"), [4.8ⓦ](https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_4.8 "wikilink") |
+<table>
+<caption>Overview of the Common Language Runtime release history<a
+href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a></caption>
+<thead>
+<tr class="header">
+<th><p>CLR version</p></th>
+<th><p>.NET version</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>1.0</p></td>
+<td><p><a
+href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_1.0"
+title="wikilink">1.0ⓦ</a></p></td>
+</tr>
+<tr class="even">
+<td><p>1.1</p></td>
+<td><p><a
+href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_1.1"
+title="wikilink">1.1ⓦ</a></p></td>
+</tr>
+<tr class="odd">
+<td><p>2.0</p></td>
+<td><p><a
+href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_2.0"
+title="wikilink">2.0ⓦ</a>, <a
+href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_3.0"
+title="wikilink">3.0ⓦ</a>, <a
+href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_3.5"
+title="wikilink">3.5ⓦ</a></p></td>
+</tr>
+<tr class="even">
+<td><p>4</p></td>
+<td><p><a
+href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_4"
+title="wikilink">4ⓦ</a>, <a
+href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_4.5"
+title="wikilink">4.5ⓦ</a>, <a
+href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_4.6"
+title="wikilink">4.6ⓦ</a>, <a
+href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_4.7"
+title="wikilink">4.7ⓦ</a>, <a
+href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_4.8"
+title="wikilink">4.8ⓦ</a></p></td>
+</tr>
+</tbody>
+</table>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"></li>
+</ol>
+</section>
 
 Overview of the Common Language Runtime release history[^3]
 

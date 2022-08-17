@@ -48,7 +48,7 @@ class Convert
      * Which format to convert files to.
      * @var string
      */
-    private $format = 'gfm';
+    private $format = 'gfm+raw_html';
     private $luafilter = '';
     private $template = '';
 
