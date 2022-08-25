@@ -265,4 +265,16 @@ function RawInline(el)
     end
     return nil
   end
+  if tplNames[1]:lower() == "bd" then
+    if #tplNames>1 then
+      bd=tplNames[2]
+      if #tplNames>2 then
+        bd=bd..tplNames[3]
+        if #tplNames>4 then
+          bd=bd.."－" .. tplNames[4] .. tplNames[5]
+        end
+      end
+      return bd
+    end
+  end
 end

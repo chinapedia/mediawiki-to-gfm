@@ -265,7 +265,11 @@ class Convert
             return null;
         }
         
-        if (mb_strlen($text) < 1024) {
+        $pageMinSize=1024;
+        if (getenv("WIKILANG") == "en") {
+            $pageMinSize*=16;
+        }
+        if (mb_strlen($text) < $pageMinSize) {
             $lagacyFile = $this->output . $fileMeta['directory'] . $fileMeta['filename'] . ".md";
             if (filesize($lagacyFile) < 2048) {
                 @unlink($lagacyFile);
