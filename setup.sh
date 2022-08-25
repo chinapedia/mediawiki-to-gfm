@@ -6,12 +6,15 @@ command -v jq >/dev/null 2>&1 || {
 apt install php7.2-cli php7.2-xml php7.2-mbstring composer zip timelimit 
 
 curl -sSL https://get.haskellstack.org/ | sh
-git clone --depth=3 https://github.com/jgm/pandoc.git
+git clone --depth=3 https://github.com/chinapedia/pandoc.git
 cd pandoc
 /usr/local/bin/stack setup
 /usr/local/bin/stack install
+export PATH="~/.local/bin:$PATH"
 
 composer update --no-dev
 
 git clone https://github.com/chinapedia/pandoc-php
 cp pandoc-php/src/Pandoc/* vendor/ryakad/pandoc-php/src/Pandoc/ -v
+
+brew install tree
