@@ -1,4 +1,5 @@
-local wiki_prefix = "https://zh.wikipedia.org/wiki/"
+local WIKILANG = os.getenv("WIKILANG")
+local wiki_prefix = "https://" .. WIKILANG .. ".wikipedia.org/wiki/"
 
 function all_trim(s)
    return s:match( "^%s*(.-)%s*$" )
@@ -26,9 +27,9 @@ local function file_exists(name)
     end
 end
 
-local wiki_path = "../wikipedia.zh"
+local wiki_path = "../wikipedia." .. WIKILANG
 if not file_exists( wiki_path .. "/README.md") then
-  wiki_path = "~/chinapedia/wikipedia.zh"
+  wiki_path = "~/chinapedia/wikipedia." .. WIKILANG
 end
 
 local function capitalize(t)
@@ -78,14 +79,14 @@ function Link(el)
   elseif istarts_with(el.target, ":Category:") then
     local c = string.sub(el.target, 1 + #":Category:")
     if not category_exists(c) then
-        el.target = "https://zh.wikipedia.org/wiki/Category:" .. c
+        el.target = wiki_prefix .. "Category:" .. c
         return el
     end
     el.target = "../Category/" .. c
   elseif istarts_with(el.target, "MediaWiki:") then
     local c = string.sub(el.target, 1 + #"MediaWiki:")
     if not special_page_exists("MediaWiki", c) then
-        el.target = "https://zh.wikipedia.org/wiki/MediaWiki:" .. c
+        el.target = wiki_prefix .. "MediaWiki:" .. c
         return el
     end
     el.target = "../MediaWiki/" .. c
@@ -167,7 +168,7 @@ function Link(el)
 end
 
 function Image(el)
-  return pandoc.Link(el.caption, "https://zh.wikipedia.org/wiki/File:" .. el.src, el.title)
+  return pandoc.Link(el.caption, wiki_prefix .. "File:" .. el.src, el.title)
 end
 
 function RawBlock(el)

@@ -19,7 +19,7 @@ fi
 echo $VERSION > VERSION
 
 DATADIR=$WIKILANG"wiki"
-FILTER="filters/gfm-"$WIKILANG".lua"
+FILTER="filters/gfm-cjk.lua"
 if [ -f $FILTER ]; then 
     echo "Filter "$FILTER" exists... Version: $VERSION"
 else
