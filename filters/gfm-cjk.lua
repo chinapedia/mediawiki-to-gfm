@@ -241,7 +241,7 @@ function RawInline(el)
   end
   tpl=all_trim(el.text:sub(3, #el.text - 2))
   tplNames={}
-  for str in string.gmatch(tpl, "([^|]+)") do
+  for str in string.gmatch(tpl, "([^|]*)") do
     if not istarts_with(str,"catIdx=") then
       table.insert(tplNames, str)
     end
