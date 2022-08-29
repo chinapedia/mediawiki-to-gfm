@@ -140,7 +140,7 @@ function Link(el)
       return el
     end
   else
-    if not el.content then
+    if not el.content or #el.content == 0 then
       return nil
     end
     ctxt = el.content[1].text
@@ -242,7 +242,7 @@ function RawInline(el)
   tpl=all_trim(el.text:sub(3, #el.text - 2))
   tplNames={}
   for str in string.gmatch(tpl, "([^|]*)") do
-    if not istarts_with(str,"catIdx=") then
+    if not starts_with(str,"catIdx") then
       table.insert(tplNames, str)
     end
   end
