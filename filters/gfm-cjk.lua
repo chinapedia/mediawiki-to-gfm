@@ -272,8 +272,13 @@ function RawInline(el)
       bd=tplNames[2]
       if #tplNames>2 then
         bd=bd..tplNames[3]
-        if #tplNames>4 then
-          bd=bd.."－" .. tplNames[4] .. tplNames[5]
+        
+        if #tplNames>3 then
+          to=tplNames[4]
+          if #tplNames>4 then
+            to=to..tplNames[5]
+          end
+          bd=bd.."－" .. to
         end
       end
       return bd
