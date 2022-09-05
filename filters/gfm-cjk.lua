@@ -283,4 +283,7 @@ function RawInline(el)
       return bd
     end
   end
+  if #tplNames == 2 then
+    return pandoc.Str(tplNames[2])
+  end
 end
