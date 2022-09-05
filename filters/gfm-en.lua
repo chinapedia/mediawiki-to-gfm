@@ -1,4 +1,5 @@
-local wiki_prefix = "https://en.wikipedia.org/wiki/"
+local WIKILANG = os.getenv("WIKILANG")
+local wiki_prefix = "https://" .. WIKILANG .. ".wikipedia.org/wiki/"
 
 function all_trim(s)
    return s:match( "^%s*(.-)%s*$" )
@@ -26,9 +27,9 @@ local function file_exists(name)
     end
 end
 
-local wiki_path = "../wikipedia.en"
+local wiki_path = "../wikipedia." .. WIKILANG
 if not file_exists( wiki_path .. "/README.md") then
-  wiki_path = "~/chinapedia/wikipedia.en"
+  wiki_path = "~/chinapedia/wikipedia." .. WIKILANG
 end
 
 local function capitalize(t)
@@ -75,14 +76,14 @@ function Link(el)
   elseif istarts_with(el.target, ":Category:") then
     local c = string.sub(el.target, 1 + #":Category:")
     if not category_exists(c) then
-        el.target = "https://zh.wikipedia.org/wiki/Category:" .. c
+        el.target = wiki_prefix .. "Category:" .. c
         return el
     end
     el.target = "../Category/" .. c
   elseif istarts_with(el.target, "MediaWiki:") then
     local c = string.sub(el.target, 1 + #"MediaWiki:")
     if not special_page_exists("MediaWiki", c) then
-        el.target = "https://zh.wikipedia.org/wiki/MediaWiki:" .. c
+        el.target = wiki_prefix .. "MediaWiki:" .. c
         return el
     end
     el.target = "../MediaWiki/" .. c
@@ -93,6 +94,9 @@ function Link(el)
     el.target = wiki_prefix .. el.target
     return el
   elseif pagePath then
+    if not el.content then
+      return nil
+    end
     ctxt = el.content[1].text
     if ctxt and starts_with(ctxt, el.target) then
       if ctxt ~= el.target then
@@ -105,8 +109,10 @@ function Link(el)
     el.target = ".." .. pagePath
     return el
   elseif redPath then
+    if not el.content then
+      return nil
+    end
     ctxt = el.content[1].text
-    -- realpath = fs.readlink(wiki_path .. "/Redirect/" .. el.target .. ".md")
     realpath=io.popen('readlink "' .. wiki_path .. redPath ..'"'):read()
     realpathcomp = {}
     realname=""
@@ -130,7 +136,7 @@ function Link(el)
       return el
     end
   else
-    if not el.content then
+    if not el.content or #el.content == 0 then
       return nil
     end
     ctxt = el.content[1].text
@@ -158,7 +164,7 @@ function Link(el)
 end
 
 function Image(el)
-  return pandoc.Link(el.caption, "https://en.wikipedia.org/wiki/File:" .. el.src, el.title)
+  return pandoc.Link(el.caption, wiki_prefix .. "File:" .. el.src, el.title)
 end
 
 function RawBlock(el)
@@ -231,8 +237,10 @@ function RawInline(el)
   end
   tpl=all_trim(el.text:sub(3, #el.text - 2))
   tplNames={}
-  for str in string.gmatch(tpl, "([^|]+)") do
-    table.insert(tplNames, str)
+  for str in string.gmatch(tpl, "([^|]*)") do
+    if not istarts_with(str,"catIdx") then
+      table.insert(tplNames, str)
+    end
   end
   if #tplNames == 0 then
     return nil
@@ -254,5 +262,22 @@ function RawInline(el)
       return pandoc.Str(tplNames[3])
     end
     return nil
+  end
+  if tplNames[1]:lower() == "bd" then
+    if #tplNames>1 then
+      bd=tplNames[2]
+      if #tplNames>2 then
+        bd=bd..tplNames[3]
+        
+        if #tplNames>3 then
+          to=tplNames[4]
+          if #tplNames>4 then
+            to=to..tplNames[5]
+          end
+          bd=bd.."－" .. to
+        end
+      end
+      return bd
+    end
   end
 end

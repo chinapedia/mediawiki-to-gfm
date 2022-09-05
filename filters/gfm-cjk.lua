@@ -116,7 +116,6 @@ function Link(el)
       return nil
     end
     ctxt = el.content[1].text
-    -- realpath = fs.readlink(wiki_path .. "/Redirect/" .. el.target .. ".md")
     realpath=io.popen('readlink "' .. wiki_path .. redPath ..'"'):read()
     realpathcomp = {}
     realname=""
