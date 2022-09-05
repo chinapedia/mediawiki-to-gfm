@@ -20,6 +20,9 @@ echo $VERSION > VERSION
 
 DATADIR=$WIKILANG"wiki"
 FILTER="filters/gfm-cjk.lua"
+if [ "$WIKILANG" = "en" ]; then
+    FILTER="filters/gfm-en.lua"
+fi
 if [ -f $FILTER ]; then 
     echo "Filter "$FILTER" exists... Version: $VERSION"
 else
@@ -69,11 +72,13 @@ for url in $(cat $DATADIR/$VERSION.sh); do
     else 
         wget $url -O $counter.bz2
         bzip2 -dk $counter.bz2
+        rm $counter.bz2
     fi
     cd ..
         mkdir "$REPO/Errors"
         mkdir "$REPO/Redirect"
         php -d memory_limit=4096M convert.php --filename="$DATADIR"/"$counter" --output="$REPO" --luafilter="$FILTER" --template=cfm-"$WIKILANG"
+        > "$DATADIR"/"$counter"
         cd $REPO
         rm Errors/*.wikitext
         python3 clean.py
