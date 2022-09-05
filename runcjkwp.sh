@@ -76,6 +76,7 @@ for url in $(cat $DATADIR/$VERSION.sh); do
         php -d memory_limit=4096M convert.php --filename="$DATADIR"/"$counter" --output="$REPO" --luafilter="$FILTER" --template=cfm-"$WIKILANG"
         cd $REPO
         rm Errors/*.wikitext
+        python3 clean.py
         find Errors -name "*.log" -type f -size -1c -delete
         git add .
         git commit -m "Convert from $VERSION stream$counter"
@@ -93,7 +94,8 @@ rm README.md.bak
 tree -J > tree.json
 sed -i .bak -E  's/"type":"file""/"/g' tree.json
 sed -i .bak -E  's/"type":"directory""/"/g' tree.json
-
-git add tree.json
+sed -i .bak -E  's/"type":"link""/"/g' tree.json
+zip tree.json.zip tree.json
+git add tree.json.zip
 git commit -m "Set version to $VERSION"
 git push
