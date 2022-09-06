@@ -284,6 +284,9 @@ function RawInline(el)
     end
   end
   if #tplNames == 2 then
-    return pandoc.Str(tplNames[2])
+    if tplNames[1]:lower() == "flag" then
+      return pandoc.Str(tplNames[2])
+    end
+    return pandoc.Str(tplNames[1] .. ":" .. tplNames[2])
   end
 end
