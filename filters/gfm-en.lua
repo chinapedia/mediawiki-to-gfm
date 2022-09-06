@@ -60,6 +60,10 @@ local function page_exists(p)
     return special_page_exists("Page", p)
 end
 
+local function lang_url(lang, p)
+    return "https://" .. lang .. ".wikipedia.org/wiki/" .. capitalize(p):gsub(" ","_")
+end
+
 function Link(el)
   if el.title ~= "wikilink" then
     return el
@@ -257,6 +261,13 @@ function RawInline(el)
     return pandoc.Str(lang .. ":" .. tplNames[2])
   end
 
+  if istarts_with(tplNames[1],"link-") and #tplNames[1] <= 10 then
+    lang=tplNames[1]:sub(6):lower()
+    if #tplNames>2 then
+      return pandoc.Link(tplNames[2], lang_url(lang, tplNames[3]))
+    end
+    return pandoc.Link(tplNames[2], lang_url(lang, tplNames[2]))
+  end
   if tplNames[1]:lower() == "lang" then
     if #tplNames>2 then
       return pandoc.Str(tplNames[3])
