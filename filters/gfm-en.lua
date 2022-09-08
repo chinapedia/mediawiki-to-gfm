@@ -294,6 +294,7 @@ function RawInline(el)
   if #tplNames == 2 then
     local skippedTemplates = {
       ["citation needed"]=true,
+      ["clear"]=true,
       ["dead link"]=true,
       ["detailslink"]=true,
       ["fact"]=true,
