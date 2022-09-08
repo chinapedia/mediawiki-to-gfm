@@ -253,7 +253,7 @@ function RawInline(el)
     return nil
   end
 
-  if istarts_with(tplNames[1],"lang-") and #tplNames[1] >= 7 then
+  if istarts_with(tplNames[1],"lang-") then
     if #tplNames==1 then
       return nil
     end
@@ -300,6 +300,7 @@ function RawInline(el)
       ["dead link"]=true,
       ["detailslink"]=true,
       ["fact"]=true,
+      ["r"]=true,
       ["rp"]=true
     }
     if skippedTemplates[tplNames[1]:lower()] then
