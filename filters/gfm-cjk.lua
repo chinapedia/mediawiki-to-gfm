@@ -295,13 +295,14 @@ function RawInline(el)
     end
   end
   if #tplNames == 2 then
-    if tplNames[1]:lower() == "fact" then
-      return nil
-    end
-    if tplNames[1]:lower() == "dead link" then
-      return nil
-    end
-    if tplNames[1]:lower() == "detailslink" then
+    local skippedTemplates = {
+      ["citation needed"]=true,
+      ["dead link"]=true,
+      ["detailslink"]=true,
+      ["fact"]=true,
+      ["rp"]=true
+    }
+    if skippedTemplates[tplNames[1]:lower()] then
       return nil
     end
     if tplNames[1]:lower() == "flag" then

@@ -13,7 +13,6 @@ python3 ../mediawiki-to-gfm/clean.py
 
 find Errors -name "*.log" -type f -size -1c -delete
 rm Errors/*.wikitext
-git add Errors/*.err.log
 git add Page
 git add Redirect
 git commit -am "Partially convert from $VERSION stream$filename"
