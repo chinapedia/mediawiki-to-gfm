@@ -179,6 +179,9 @@ class Convert
                 $procOpt["stdout"] = $errpath . ".log";
                 $procOpt["stderr"] = $errpath . ".err.log";
                 $procOpt["timeout"] = 3;
+                if ($lang == "en" || mb_strlen($text) > 16*1024) {
+                    $procOpt["timeout"] = 6;
+                }
                 $this->pandocOptions["variable"] = [
                     "\"cfmtitle={$fileMeta['title']}\"",
                     "\"cfmurl={$fileMeta['url']}\"",
@@ -284,7 +287,9 @@ class Convert
         }
 
         // clean up links
-        return preg_replace_callback('/\[\[(.+?)\]\]/', [$callback, "cleanLink"], $text);
+        $text = preg_replace_callback('/\[\[(.+?)\]\]/', [$callback, "cleanLink"], $text);
+        // remove comments
+        return preg_replace('/<!--(.|\s)*?-->/', '', $text);
     }
 
     /**
