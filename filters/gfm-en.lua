@@ -118,26 +118,33 @@ function Link(el)
     end
     ctxt = el.content[1].text
     realpath=io.popen('readlink "' .. wiki_path .. redPath ..'"'):read()
-    realpathcomp = {}
-    realname=""
-    for str in string.gmatch(realpath, "([^/]+)") do
-      table.insert(realpathcomp, str)
-      realname=str
-    end
-    if #realpathcomp < 2 or #realname==0 then
-      el.target = "../Redirect/" .. el.target .. ".md"
-      if #el.content == 1 then
-        el.content[1].text = el.content[1].text .. "Ⓡ"
+    if realpath then
+      realpathcomp = {}
+      realname=""
+      for str in string.gmatch(realpath, "([^/]+)") do
+        table.insert(realpathcomp, str)
+        realname=str
       end
-      return el
-    elseif ctxt and starts_with(ctxt, el.target) and ctxt ~= el.target then
-      suffix = ctxt:sub(1 + #el.target)
-      el.content[1].text = el.target
-      el.target = "../Page/" .. capitalize(realname)
-      return {el, pandoc.Str(suffix)}
+      if #realpathcomp < 2 or #realname==0 then
+        el.target = "../Redirect/" .. el.target .. ".md"
+        if #el.content == 1 then
+          el.content[1].text = el.content[1].text .. "Ⓡ"
+        end
+        return el
+      elseif ctxt and starts_with(ctxt, el.target) and ctxt ~= el.target then
+        suffix = ctxt:sub(1 + #el.target)
+        el.content[1].text = el.target
+        el.target = "../Page/" .. capitalize(realname)
+        return {el, pandoc.Str(suffix)}
+      else
+        el.target = "../Page/" .. capitalize(realname)
+        return el
+      end
     else
-      el.target = "../Page/" .. capitalize(realname)
-      return el
+      os.remove(wiki_path .. redPath)
+      local handle = io.popen('rm "' .. wiki_path .. redPath ..'"')
+      handle:close()
+      el.target = wiki_prefix .. el.target
     end
   else
     if not el.content or #el.content == 0 then
