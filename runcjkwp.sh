@@ -99,7 +99,7 @@ rm README.md.bak
 tree -J > tree.json
 sed -i .bak -E  's/"type":"file""/"/g' tree.json
 sed -i .bak -E  's/"type":"directory""/"/g' tree.json
-sed -i .bak -E  's/"type":"link""/"/g' tree.json
+sed -i .bak -E  's/"type":"link""/"type":"link","/g' tree.json
 zip tree.json.zip tree.json
 git add tree.json.zip
 git commit -m "Set version to $VERSION"

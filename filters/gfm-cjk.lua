@@ -314,7 +314,11 @@ function RawInline(el)
     if skippedTemplates[tplNames[1]:lower()] then
       return nil
     end
-    if tplNames[1]:lower() == "flag" then
+    local valueTemplates = {
+      ["flag"]=true,
+      ["nowrap"]=true
+    }
+    if valueTemplates[tplNames[1]:lower()] then
       return pandoc.Str(tplNames[2])
     end
     return pandoc.Str(tplNames[1] .. ":" .. tplNames[2])
