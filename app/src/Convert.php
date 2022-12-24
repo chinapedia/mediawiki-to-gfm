@@ -13,7 +13,7 @@ class Convert
      * Converter Version
      * @var string
      */
-    private $version = '0.9.0';
+    private $version = '0.9.1';
     /**
      * Path and name of  file to convert
      * @var String
@@ -25,6 +25,7 @@ class Convert
      * @var String
      */
     private $output;
+    private $outputTree;
 
     /**
      * Set to true will save converted files in one directory level
@@ -39,12 +40,6 @@ class Convert
     private $addmeta = false;
 
     /**
-     * Set to true will force the file matching the name of each directory to index.md
-     * @var boolean
-     */
-    private $indexes = false;
-
-    /**
      * Which format to convert files to.
      * @var string
      */
@@ -57,12 +52,6 @@ class Convert
      * @var integer
      */
     private $counter = 0;
-
-    /**
-     * Holds list of files converted when 'indexes' is set to true
-     * @var [type]
-     */
-    private $directory_list;
 
     /**
      * Holds XML Data for each 'page' found in the XML file
@@ -105,7 +94,6 @@ class Convert
         $this->pandocSetup();
         $this->loadData($this->loadFile());
         $this->convertData();
-        $this->renameFiles($this->directory_list);
         $this->message("$this->counter files converted");
     }
 
@@ -131,6 +119,22 @@ class Convert
             $this->pandocOptions["template"] = $this->template;
         }
         $this->message("pandoc: " . json_encode($this->pandocOptions));
+        $jsonFile = $this->output . "tree.json";
+        if (file_exists($jsonFile)) {
+            $tree = json_decode(file_get_contents($jsonFile), true); 
+            $this->outputTree = [];
+            $dirTree = $tree[0]['contents'];
+            foreach ($dirTree as $dir ) {
+                $d = [];
+                if (!empty($dir['contains'])) {
+                    foreach ($r as $dir) {
+                        $d[$dir['name']] = true;
+                    }
+                }
+                $this->outputTree[$dirTree['name']] = $d;
+            }
+            var_dump($this->outputTree);
+        }
     }
 
     /**
@@ -239,14 +243,14 @@ class Convert
                 $matches = [];
                 preg_match('/\[\[(.*)\]\]/', $target, $matches, PREG_OFFSET_CAPTURE);
                 if (count($matches)>1) {
-                    $dir="Page/";
+                    $dir="Page";
                     $ext=".md";
                     $mobj=$matches[1];
                     if ($this->format === "mediawiki") {
-                        $dir = mb_substr($mobj[0],0,1)+"/";
+                        $dir = mb_substr($mobj[0],0,1);
                         $ext = ".wikitext";
                     }
-                    $targetFile = $dir . $mobj[0] . $ext;
+                    $targetFile = $dir . "/" . $mobj[0] . $ext;
                     if (file_exists($this->output . $targetFile)) {
                         $this->message("Redirect: " . $fileMeta['filename'] . " -> " . $targetFile);
                         symlink("../" . $targetFile, $this->output . "Redirect/" . $fileMeta['filename'] . $ext);
@@ -254,8 +258,9 @@ class Convert
                         $this->message("Redirect target not exists: " . $text . $targetFile);
                     }
 
-                    $lagacyFile = $this->output . $dir . $fileMeta['filename'] . $ext;
-                    if (filesize($lagacyFile) < 2048) {
+                    $fileName = $fileMeta['filename'] . $ext;
+                    $lagacyFile = $this->output . $dir . $fileName;
+                    if (array_key_exists($fileName, $this->outputTree($dir)) && filesize($lagacyFile) < 2048) {
                         @unlink($lagacyFile);
                         $this->message("Delete lagacy page: " . $lagacyFile);
                     } else {
@@ -403,24 +408,6 @@ class Convert
     }
 
     /**
-     * Rename files that have the same name as a folder to index.md
-     * @return boolean
-     */
-    public function renameFiles()
-    {
-        if ($this->flatten || !count((array)$this->directory_list) || !$this->indexes) {
-            return false;
-        }
-
-        foreach ($this->directory_list as $directory_name) {
-            if (file_exists($this->output . $directory_name . '.md')) {
-                rename($this->output . $directory_name . '.md', $this->output . $directory_name . '/index.md');
-            }
-        }
-        return true;
-    }
-
-    /**
      * Build and return Permalink metadata
      * @param array $fileMeta File Title and URL
      * @return  string Page body with meta data added
@@ -470,7 +457,6 @@ class Convert
         $this->setOption('output', $options, 'output');
         $this->setOption('format', $options, $this->pandocBroken ? 'markdown_github' : 'gfm');
         $this->setOption('flatten', $options);
-        $this->setOption('indexes', $options);
         $this->setOption('addmeta', $options);
         $this->setOption('luafilter', $options);
         $this->setOption('template', $options);
@@ -541,7 +527,7 @@ Run the script on your exported MediaWiki XML file:
     ./convert.php --filename=/path/to/filename.xml 
 
 Options:
-    ./convert.php --filename=/path/to/filename.xml --output=/path/to/converted/files --format=gfm --addmeta --flatten --indexes
+    ./convert.php --filename=/path/to/filename.xml --output=/path/to/converted/files --format=gfm --addmeta --flatten 
 
     --filename : Location of the mediawiki exported XML file to convert to GFM format (Required).
     --output   : Location where you would like to save the converted files (Default: ./output).
