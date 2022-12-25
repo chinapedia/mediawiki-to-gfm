@@ -251,14 +251,17 @@ class Convert
                         $ext = ".wikitext";
                     }
                     $targetFile = $dir . "/" . $mobj[0] . $ext;
+                    $fileName = $fileMeta['filename'] . $ext;
                     if (file_exists($this->output . $targetFile)) {
                         $this->message("Redirect: " . $fileMeta['filename'] . " -> " . $targetFile);
-                        symlink("../" . $targetFile, $this->output . "Redirect/" . $fileMeta['filename'] . $ext);
+                        if (array_key_exists($fileName, $this->outputTree['Redirect'])) {
+                            unlink($this->output . "Redirect/" . $fileName);
+                        }
+                        symlink("../" . $targetFile, $this->output . "Redirect/" . $fileName);
                     } else {
                         $this->message("Redirect target not exists: " . $text . $targetFile);
                     }
 
-                    $fileName = $fileMeta['filename'] . $ext;
                     $lagacyFile = $this->output . $dir . $fileName;
                     if (array_key_exists($fileName, $this->outputTree[$dir]) && filesize($lagacyFile) < 2048) {
                         @unlink($lagacyFile);
