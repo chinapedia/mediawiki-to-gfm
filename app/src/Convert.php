@@ -126,12 +126,12 @@ class Convert
             $dirTree = $tree[0]['contents'];
             foreach ($dirTree as $dir ) {
                 $d = [];
-                if (!empty($dir['contains'])) {
-                    foreach ($r as $dir) {
-                        $d[$dir['name']] = true;
+                if (!empty($dir['contents'])) {
+                    foreach ($dir['contents'] as $r) {
+                        $d[$r['name']] = true;
                     }
                 }
-                $this->outputTree[$dirTree['name']] = $d;
+                $this->outputTree[$dir['name']] = $d;
             }
             var_dump($this->outputTree);
         }
