@@ -133,7 +133,7 @@ class Convert
                 }
                 $this->outputTree[$dir['name']] = $d;
             }
-            var_dump($this->outputTree);
+            echo json_encode($this->outputTree);
         }
     }
 
