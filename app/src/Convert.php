@@ -155,7 +155,7 @@ class Convert
                 continue;
             }
 
-            if ($fileMeta['type'] == 3) {
+            if ($fileMeta['type'] == 3 || $fileMeta['type'] == 4) {
                 if (strlen($text) > 1024) {
                     $this->saveFile($fileMeta, $text, ".wikitext");
                 } else {
