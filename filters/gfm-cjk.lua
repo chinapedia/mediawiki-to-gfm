@@ -104,15 +104,6 @@ function Link(el)
     if not el.content then
       return nil
     end
-    ctxt = el.content[1].text
-    if ctxt and starts_with(ctxt, el.target) then
-      if ctxt ~= el.target then
-        suffix = ctxt:sub(1 + #el.target)
-        el.content[1].text = el.target
-        el.target = ".." .. pagePath
-        return {el, pandoc.Str(suffix)} 
-      end
-    end
     el.target = ".." .. pagePath
     return el
   elseif redPath then
@@ -134,11 +125,6 @@ function Link(el)
           el.content[1].text = el.content[1].text .. "Ⓡ"
         end
         return el
-      elseif ctxt and starts_with(ctxt, el.target) and ctxt ~= el.target then
-        suffix = ctxt:sub(1 + #el.target)
-        el.content[1].text = el.target
-        el.target = "../Page/" .. capitalize(realname)
-        return {el, pandoc.Str(suffix)}
       else
         el.target = "../Page/" .. capitalize(realname)
         return el
@@ -311,7 +297,7 @@ function RawInline(el)
       ["r"]=true,
       ["rp"]=true
     }
-    if skippedTemplates[tplNames[1]:lower()] then
+    if skippedTemplates[tplNames[1]:lower()] or #tplNames[2] > 128 then
       return nil
     end
     local valueTemplates = {
