@@ -13,7 +13,7 @@ fi
 
 day=$(date +%d)
 VERSION=`date '+%Y%m01'`
-if [ "$day" -gt "23" ]; then
+if [ "$day" -gt "20" ]; then
     VERSION=`date '+%Y%m20'`
 fi
 echo $VERSION > VERSION
