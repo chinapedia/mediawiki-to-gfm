@@ -1,5 +1,8 @@
 local WIKILANG = os.getenv("WIKILANG")
 local wiki_prefix = "https://" .. WIKILANG .. ".wikipedia.org/wiki/"
+if WIKILANG == "zh" then
+    wiki_prefix = "https://" .. WIKILANG .. ".wiki.chinapedia.org/wiki/"
+end
 
 function all_trim(s)
    return s:match( "^%s*(.-)%s*$" )
