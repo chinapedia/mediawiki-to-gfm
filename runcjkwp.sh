@@ -1,4 +1,14 @@
 export WIKILANG=$1
+
+treeJson() {
+tree -J > tree.json
+sed -i .bak -E  's/"type":"file""/"/g' tree.json
+sed -i .bak -E  's/"type":"directory""/"/g' tree.json
+sed -i .bak -E  's/"type":"link""/"type":"link","/g' tree.json
+rm tree.json.bak
+zip tree.json.zip tree.json
+}
+
 if [ $1 = "-c" ]; then
     export WIKILANG=$2
     VERSION=`cat VERSION`
@@ -9,6 +19,11 @@ else
         VERSION=`date '+%Y%m20'`
     fi
     echo $VERSION > VERSION
+fi
+
+if [ $1 = "-t" ]; then
+    treeJson
+    exit 1
 fi
 
 if [ $1 = "-r" ]; then
@@ -99,11 +114,7 @@ cd $REPO
 sed -i .bak -E "s/[0-9]{8}/$VERSION/g" README.md
 git add README.md
 rm README.md.bak
-tree -J > tree.json
-sed -i .bak -E  's/"type":"file""/"/g' tree.json
-sed -i .bak -E  's/"type":"directory""/"/g' tree.json
-sed -i .bak -E  's/"type":"link""/"type":"link","/g' tree.json
-zip tree.json.zip tree.json
+treeJson
 git add tree.json.zip
 git commit -m "Set version to $VERSION"
 git push
