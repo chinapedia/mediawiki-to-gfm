@@ -263,7 +263,7 @@ class Convert
                     }
 
                     $lagacyFile = $this->output . $dir . $fileName;
-                    if (array_key_exists($fileName, $this->outputTree[$dir]) && filesize($lagacyFile) < 2048) {
+                    if ($this->outputTree[$dir] && array_key_exists($fileName, $this->outputTree[$dir]) && filesize($lagacyFile) < 2048) {
                         @unlink($lagacyFile);
                         $this->message("Delete lagacy page: " . $lagacyFile);
                     } else {
