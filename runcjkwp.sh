@@ -1,6 +1,14 @@
 export WIKILANG=$1
 if [ $1 = "-c" ]; then
     export WIKILANG=$2
+    VERSION=`cat VERSION`
+else
+    day=$(date +%d)
+    VERSION=`date '+%Y%m01'`
+    if [ "$day" -gt "20" ]; then
+        VERSION=`date '+%Y%m20'`
+    fi
+    echo $VERSION > VERSION
 fi
 
 if [ $1 = "-r" ]; then
@@ -11,12 +19,7 @@ if [ -z $WIKILANG ]; then
     export WIKILANG=zh
 fi
 
-day=$(date +%d)
-VERSION=`date '+%Y%m01'`
-if [ "$day" -gt "20" ]; then
-    VERSION=`date '+%Y%m20'`
-fi
-echo $VERSION > VERSION
+
 
 DATADIR=$WIKILANG"wiki"
 FILTER="filters/gfm-cjk.lua"
