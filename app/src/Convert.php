@@ -162,6 +162,9 @@ class Convert
                     $this->message("Template: " . json_encode($fileMeta) . " -> " . $text);
                 }
                 continue;
+            } else if ($fileMeta['type'] == 200) {
+                $draftpath = $this->output . "Draft/" . $fileMeta['filename'] . ".md";
+                @unlink($draftpath);
             }
             
             $text = $this->cleanText($text, $fileMeta);
