@@ -14,6 +14,7 @@ class Convert
      * @var string
      */
     private $version = '0.9.1';
+    private $dataVersion = '';
     /**
      * Path and name of  file to convert
      * @var String
@@ -86,6 +87,7 @@ class Convert
         $this->pandoc = new Pandoc();
         $this->pandocBroken = (version_compare($this->pandoc->getVersion(), '2.0.2', '<='));
         $this->setArguments($options);
+        $this->dataVersion = file_get_contents($this->output . "VERSION");
     }
 
     public function run()
@@ -235,27 +237,37 @@ class Convert
         // decode inline html
         $text = html_entity_decode($text);
 
-        if ($fileMeta['type']>=200 && mb_strpos($text, "#") === 0) {
+        if (mb_strpos($text, "#") === 0) {
+            $ext=".md";
             $target="";
             if (mb_stripos($text, "#REDIRECT") === 0) {
                 $target = mb_substr($text, mb_strlen("#REDIRECT"));
             } else if (mb_strpos($text, "#重定向") === 0) {
                 $target = mb_substr($text, mb_strlen("#重定向"));
             }
+
+            $fileName = $fileMeta['filename'] . $ext;
             if (mb_strlen($target) > 4) {
+                if ($fileMeta['type']<200) {
+                    $source = $fileMeta['directory'] . $fileName;
+                    unlink($source);
+                    file_put_contents(
+                        $this->output . "Redirect/" . $this->dataVersion . ".tsv",
+                        $source . "\t" . $target . "\n",
+                        FILE_APPEND);
+                    return null;
+                }
                 $matches = [];
                 preg_match('/\[\[(.*)\]\]/', $target, $matches, PREG_OFFSET_CAPTURE);
                 if (count($matches)>1) {
                     $dir="Page";
-                    $ext=".md";
                     $mobj=$matches[1];
                     if ($this->format === "mediawiki") {
                         $dir = mb_substr($mobj[0],0,1);
                         $ext = ".wikitext";
                     }
                     $targetFile = $dir . "/" . $mobj[0] . $ext;
-                    $fileName = $fileMeta['filename'] . $ext;
-                    if (file_exists($this->output . $targetFile)) {
+                    if ($fileMeta['type']>=200 && file_exists($this->output . $targetFile)) {
                         $this->message("Redirect: " . $fileMeta['filename'] . " -> " . $targetFile);
                         if (array_key_exists($fileName, $this->outputTree['Redirect'])) {
                             unlink($this->output . "Redirect/" . $fileName);
