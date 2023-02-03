@@ -87,7 +87,7 @@ class Convert
         $this->pandoc = new Pandoc();
         $this->pandocBroken = (version_compare($this->pandoc->getVersion(), '2.0.2', '<='));
         $this->setArguments($options);
-        $this->dataVersion = file_get_contents($this->output . "VERSION");
+        $this->dataVersion = substr(file_get_contents($this->output . "VERSION"), 0, 8);
     }
 
     public function run()
