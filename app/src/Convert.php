@@ -171,7 +171,7 @@ class Convert
             
             $text = $this->cleanText($text, $fileMeta);
             if (empty($text)) {
-                $this->message("cleanText empty: " . $node->xpath('revision/text')[0]);
+                $this->message("cleanText empty: " . json_encode($fileMeta));
                 continue;
             }
 
