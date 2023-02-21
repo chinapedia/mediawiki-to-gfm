@@ -72,7 +72,8 @@ else
     git clone git@github.com:chinapedia/wikipedia.$WIKILANG.git --depth=3
     cd -
 fi
- 
+
+cp -f VERSION $REPO/VERSION
 > $LOG 
 
 counter=1
