@@ -113,8 +113,6 @@ class Convert
         ];
         if (! empty($this->luafilter)) {
             $this->pandocOptions["lua-filter"] = $this->luafilter;
-        } else if ($this->format === "gfm" || strpos($this->format, "markdown") === 0) {
-            $this->pandocOptions["lua-filter"] = "links-to-md.lua";
         }
 
         if (! empty($this->template)) {
@@ -473,7 +471,7 @@ class Convert
     {
         $this->setOption('filename', $options, null);
         $this->setOption('output', $options, 'output');
-        $this->setOption('format', $options, $this->pandocBroken ? 'markdown_github' : 'gfm');
+        $this->setOption('format', $options, $this->pandocBroken ? 'markdown_github' : 'gfm+raw_html');
         $this->setOption('flatten', $options);
         $this->setOption('addmeta', $options);
         $this->setOption('luafilter', $options);
