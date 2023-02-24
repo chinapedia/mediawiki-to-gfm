@@ -264,7 +264,8 @@ class Convert
                         $dir = mb_substr($mobj[0],0,1);
                         $ext = ".wikitext";
                     }
-                    $targetFile = $dir . "/" . $mobj[0] . $ext;
+                    $filename = str_replace(' ', '_', $mobj[0]);
+                    $targetFile = $dir . "/" . $filename . $ext;
                     if ($fileMeta['type']>=200 && file_exists($this->output . $targetFile)) {
                         $this->message("Redirect: " . $fileMeta['filename'] . " -> " . $targetFile);
                         if (array_key_exists($fileName, $this->outputTree['Redirect'])) {
@@ -295,7 +296,7 @@ class Convert
         }
         if (mb_strlen($text) < $pageMinSize) {
             $lagacyFile = $this->output . $fileMeta['directory'] . $fileMeta['filename'] . ".md";
-            if (filesize($lagacyFile) < 2048) {
+            if (@filesize($lagacyFile) < 2048) {
                 @unlink($lagacyFile);
             }
             $this->message("Delete short page: ", $lagacyFile);
