@@ -167,7 +167,7 @@ function Link(el)
 end
 
 function Image(el)
-  return pandoc.Link(el.caption, wiki_prefix .. "File:" .. el.src, el.title)
+  return pandoc.Link(el.src, wiki_prefix .. "File:" .. el.src, el.title)
 end
 
 function RawBlock(el)

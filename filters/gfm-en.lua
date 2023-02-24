@@ -175,7 +175,7 @@ function Link(el)
 end
 
 function Image(el)
-  return pandoc.Link(el.caption, wiki_prefix .. "File:" .. el.src, el.title)
+  return pandoc.Link(el.src, wiki_prefix .. "File:" .. el.src, el.title)
 end
 
 function RawBlock(el)
@@ -221,13 +221,6 @@ function RawBlock(el)
       return pandoc.Str(el.text)
     end
 
-    if special_page_exists("Template",tplName) and #t == 0 then
-      local tplFile = io.open(wiki_path .. "/Template/" .. tplName .. ".md", 'rb')
-      local content = tplFile:read "*a"
-      tplFile:close()
-      return pandoc.RawInline('mediawiki', content)
-    end
-  
   end
   return nil
 end
