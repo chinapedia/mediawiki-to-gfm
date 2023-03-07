@@ -221,6 +221,12 @@ class Convert
         }
     }
 
+    public function mapping($mappingFile, $key, $value) {
+        $tree = json_decode(file_get_contents($jsonFile), true);
+        $tree[$key] = $value;
+        file_put_contents($mappingFile, json_encode($tree, JSON_PRETTY_PRINT)); 
+    }
+
     /**
      * Handles the various tasks to clean and get text ready to convert
      * @param  string $text Text to convert
@@ -264,14 +270,22 @@ class Convert
                         $dir = mb_substr($mobj[0],0,1);
                         $ext = ".wikitext";
                     }
-                    $filename = str_replace(' ', '_', $mobj[0]);
-                    $targetFile = $dir . "/" . $filename . $ext;
+                    $targetName = str_replace(' ', '_', $mobj[0]);
+                    $targetFile = $dir . "/" . $targetName . $ext;
                     if ($fileMeta['type']>=200 && file_exists($this->output . $targetFile)) {
                         $this->message("Redirect: " . $fileMeta['filename'] . " -> " . $targetFile);
                         if (array_key_exists($fileName, $this->outputTree['Redirect'])) {
                             unlink($this->output . "Redirect/" . $fileName);
                         }
-                        symlink("../" . $targetFile, $this->output . "Redirect/" . $fileName);
+                        if (getenv("WIKILANG") == "en") {
+                            $this->mapping(
+                                $this->output . "Redirect/" . mb_substr($filename, 0, 1) . ".json",
+                                $fileMeta['filename'],
+                                $targetName 
+                            );
+                        } else {
+                            symlink("../" . $targetFile, $this->output . "Redirect/" . $fileName);
+                        }
                     } else {
                         $this->message("Redirect target not exists: " . $text . $targetFile);
                     }
