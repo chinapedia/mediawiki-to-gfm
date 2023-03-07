@@ -14,7 +14,11 @@ python3 ../mediawiki-to-gfm/clean.py
 find Errors -name "*.log" -type f -size -1c -delete
 rm Errors/*.wikitext
 git add Page
-git add Redirect
-git commit -am "Partially convert from $VERSION stream$filename"
+git commit -m "Partially convert from $VERSION stream$filename"
+if [ "$1" == "en" ]; then
+    python3 ../mediawiki-to-gfm/clean.py r
+    git add Redirect
+    git commit -m "Partially update redirects from $VERSION stream$filename"
+fi
 git push
 

@@ -97,7 +97,6 @@ for url in $(cat $DATADIR/$VERSION.sh); do
         mkdir "$REPO/Errors"
         mkdir "$REPO/Redirect"
         php -d memory_limit=4096M convert.php --filename="$DATADIR"/"$counter" --output="$REPO" --luafilter="$FILTER" --template=cfm-"$WIKILANG"
-        > "$DATADIR"/"$counter"
         cd $REPO
         rm Errors/*.wikitext
         python3 clean.py
@@ -107,6 +106,7 @@ for url in $(cat $DATADIR/$VERSION.sh); do
         git push
         cd -
         echo "Done stream "$counter >> $LOG
+        > "$DATADIR"/"$counter"
 
     counter=$((counter + 1))
 done

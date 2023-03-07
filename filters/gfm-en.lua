@@ -131,11 +131,6 @@ function Link(el)
           el.content[1].text = el.content[1].text .. "Ⓡ"
         end
         return el
-      elseif ctxt and starts_with(ctxt, el.target) and ctxt ~= el.target then
-        suffix = ctxt:sub(1 + #el.target)
-        el.content[1].text = el.target
-        el.target = "../Page/" .. capitalize(realname)
-        return {el, pandoc.Str(suffix)}
       else
         el.target = "../Page/" .. capitalize(realname)
         return el
