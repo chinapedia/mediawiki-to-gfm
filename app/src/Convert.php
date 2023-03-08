@@ -222,7 +222,7 @@ class Convert
     }
 
     public function mapping($mappingFile, $key, $value) {
-        $tree = json_decode(file_get_contents($jsonFile), true);
+        $tree = json_decode(file_get_contents($mappingFile), true);
         $tree[$key] = $value;
         file_put_contents($mappingFile, json_encode($tree, JSON_PRETTY_PRINT)); 
     }
@@ -279,7 +279,7 @@ class Convert
                         }
                         if (getenv("WIKILANG") == "en") {
                             $this->mapping(
-                                $this->output . "Redirect/" . mb_substr($filename, 0, 1) . ".json",
+                                $this->output . "Redirect/" . mb_substr($fileName, 0, 1) . ".json",
                                 $fileMeta['filename'],
                                 $targetName 
                             );
